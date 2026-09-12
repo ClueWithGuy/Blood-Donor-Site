@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | Blood Donor Finder</title>
+
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+            <span class="logo-icon">🩸</span>
+            <span>Blood Donor Finder</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/register" class="active">Register</a>
+            <a href="/login">Login</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Registration Area -->
+    <main class="register-container">
+
+        <div class="register-card">
+
+            <!-- Header -->
+            <div class="register-header">
+
+                <div class="blood-icon">
+                    🩸
+                </div>
+
+                <h1>Become a Donor</h1>
+
+                <p>
+                    Register today and help save lives in your community.
+                </p>
+
+            </div>
+
+
+            <!-- Registration Form -->
+            <form id="registerForm">
+
+                <div class="form-group">
+                    <label for="school_id">
+                        Student ID
+                    </label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">🎓</span>
+
+                        <input
+                            type="text"
+                            id="school_id"
+                            name="school_id"
+                            placeholder="Enter your Student ID"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉️</span>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email address"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+                    </div>
+
+                    <small class="input-hint">
+                        Use at least 6 characters.
+                    </small>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="cellphone">
+                        Cellphone
+                    </label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">📱</span>
+
+                        <input
+                            type="tel"
+                            id="cellphone"
+                            name="cellphone"
+                            placeholder="Enter your phone number"
+                            autocomplete="tel"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="blood_group">
+                        Blood Group
+                    </label>
+
+                    <div class="input-wrapper select-wrapper">
+                        <span class="input-icon">🩸</span>
+
+                        <select
+                            id="blood_group"
+                            name="blood_group"
+                            required
+                        >
+                            <option value="">Select your blood group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="registerBtn"
+                    class="register-button"
+                >
+                    <span>Register as Donor</span>
+                    <span class="arrow">→</span>
+                </button>
+
+            </form>
+
+
+            <!-- Message -->
+            <div id="message" class="message"></div>
+
+
+            <!-- Login Link -->
+            <div class="login-section">
+
+                <span>Already have an account?</span>
+
+                <a href="/login">
+                    Login here
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            🩸 Blood Donor Finder © 2026
+        </p>
+
+        <p class="footer-text">
+            Every donation can make a difference.
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="/js/register.js"></script>
+
+</body>
+</html>

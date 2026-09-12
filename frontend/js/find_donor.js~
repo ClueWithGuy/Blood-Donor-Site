@@ -1,0 +1,87 @@
+async function searchDonors() {
+
+    const bloodGroup = document.getElementById("blood_group").value;
+    const results = document.getElementById("results");
+    const message = document.getElementById("message");
+
+    results.innerHTML = "";
+    message.innerHTML = "";
+
+    if (!bloodGroup) {
+        message.innerHTML = `
+            <div class="message error">
+                Please select a blood group.
+            </div>
+        `;
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/api/donors?blood_group=${encodeURIComponent(bloodGroup)}`
+        );
+
+        const donors = await response.json();
+
+        if (donors.length === 0) {
+            results.innerHTML = `
+                <div class="dashboard-card">
+                    <h2>No Donors Found</h2>
+                    <p>
+                        No active donors are currently available
+                        for ${bloodGroup}.
+                    </p>
+                </div>
+            `;
+            return;
+        }
+
+        donors.forEach(donor => {
+
+            const donorCard = document.createElement("div");
+
+            donorCard.className = "dashboard-card";
+
+            donorCard.innerHTML = `
+                <h2>${donor.name}</h2>
+
+                <div class="donor-info">
+
+                    <div class="info-item">
+                        <strong>Blood Group</strong>
+                        ${donor.blood_group}
+                    </div>
+
+                    <div class="info-item">
+                        <strong>School ID</strong>
+                        ${donor.school_id}
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Email</strong>
+                        ${donor.email}
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Cellphone</strong>
+                        ${donor.cellphone}
+                    </div>
+
+                </div>
+            `;
+
+            results.appendChild(donorCard);
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.innerHTML = `
+            <div class="message error">
+                Something went wrong while searching for donors.
+            </div>
+        `;
+    }
+}

@@ -1,0 +1,374 @@
+/* =========================
+   Global
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f8fafc;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================
+   Navigation
+========================= */
+
+nav {
+    height: 70px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+nav h2 {
+    color: #dc2626;
+    font-size: 22px;
+}
+
+nav div {
+    display: flex;
+    gap: 28px;
+}
+
+nav a {
+    color: #374151;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: #dc2626;
+}
+
+
+/* =========================
+   Hero
+========================= */
+
+.hero {
+    min-height: 430px;
+    background: linear-gradient(
+        135deg,
+        #991b1b,
+        #dc2626
+    );
+
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 60px 20px;
+}
+
+.hero h1 {
+    font-size: 52px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 19px;
+    max-width: 600px;
+    margin-bottom: 30px;
+    color: #fee2e2;
+}
+
+.hero button {
+    background: white;
+    color: #dc2626;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 13px 25px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.hero button:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   Find Donors
+========================= */
+
+.find-donor {
+    max-width: 900px;
+    margin: -50px auto 70px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    position: relative;
+}
+
+.find-donor h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.find-donor > p {
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+
+/* Search */
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.search-box select {
+    width: 260px;
+
+    padding: 13px 15px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    background: white;
+}
+
+.search-box select:focus {
+    outline: none;
+    border-color: #dc2626;
+}
+
+.search-box button {
+    background: #dc2626;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 13px 25px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.search-box button:hover {
+    background: #b91c1c;
+}
+
+
+/* =========================
+   Messages
+========================= */
+
+#message {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+
+/* =========================
+   Donor Results
+========================= */
+
+#donorResults {
+    margin-top: 30px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+}
+
+.donor-card {
+    background: #fff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 22px;
+
+    transition: 0.2s;
+}
+
+.donor-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.donor-card h3 {
+    color: #dc2626;
+    margin-bottom: 12px;
+}
+
+.donor-card p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #4b5563;
+}
+
+.donor-card strong {
+    color: #1f2937;
+}
+
+
+/* =========================
+   About
+========================= */
+
+.about {
+    max-width: 850px;
+
+    margin: 0 auto 70px;
+
+    text-align: center;
+
+    padding: 20px;
+}
+
+.about h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.about p {
+    color: #6b7280;
+    font-size: 17px;
+}
+
+
+/* =========================
+   Contact
+========================= */
+
+.contact {
+    background: #f1f5f9;
+
+    text-align: center;
+
+    padding: 60px 20px;
+}
+
+.contact h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.contact p {
+    color: #6b7280;
+}
+
+
+/* =========================
+   Footer
+========================= */
+
+footer {
+    background: #111827;
+
+    color: #9ca3af;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+footer p {
+    font-size: 14px;
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 700px) {
+
+    nav {
+        padding: 0 20px;
+    }
+
+    nav h2 {
+        font-size: 18px;
+    }
+
+    nav div {
+        gap: 12px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .find-donor {
+        margin: -30px 15px 50px;
+        padding: 25px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box select {
+        width: 100%;
+    }
+
+    .search-box button {
+        width: 100%;
+    }
+}
+

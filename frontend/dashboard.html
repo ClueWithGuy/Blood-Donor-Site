@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Donor Dashboard</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+
+        <div class="brand">
+            <div class="brand-icon">🩸</div>
+            <div>
+                <h2>BloodConnect</h2>
+                <span>Donor Portal</span>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <span id="navUserName">Loading...</span>
+            <button id="logoutBtn" class="logout-btn">
+                Logout
+            </button>
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+    <main class="dashboard-container">
+
+        <!-- Welcome -->
+        <section class="welcome-section">
+
+            <div>
+                <p class="small-label">DONOR DASHBOARD</p>
+
+                <h1>
+                    Welcome, <span id="welcomeName">Donor</span> 👋
+                </h1>
+
+                <p>
+                    Manage your donor information and help people
+                    find the blood they need.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= STAT CARDS ================= -->
+        <section class="stats-grid">
+
+            <div class="stat-card blood-card">
+
+                <div class="stat-icon">
+                    🩸
+                </div>
+
+                <div>
+                    <span>Blood Group</span>
+                    <h2 id="bloodGroup">--</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    👤
+                </div>
+
+                <div>
+                    <span>School ID</span>
+                    <h3 id="schoolId">--</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ●
+                </div>
+
+                <div>
+                    <span>Availability</span>
+                    <h3 id="availabilityText">Checking...</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CONTENT GRID ================= -->
+        <section class="content-grid">
+
+
+            <!-- ================= PROFILE ================= -->
+            <div class="card profile-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <p class="small-label">MY PROFILE</p>
+                        <h2>Donor Information</h2>
+                    </div>
+
+                    <button id="editProfileBtn" class="secondary-btn">
+                        ✏️ Edit
+                    </button>
+
+                </div>
+
+
+                <div class="profile-info">
+
+                    <div class="info-item">
+                        <span class="info-label">Full Name</span>
+                        <strong id="profileName">--</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">School ID</span>
+                        <strong id="profileSchoolId">--</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Email</span>
+                        <strong id="profileEmail">--</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Cellphone</span>
+                        <strong id="profilePhone">--</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Blood Group</span>
+                        <strong id="profileBloodGroup" class="blood-text">--</strong>
+                    </div>
+
+                </div>
+
+
+                <!-- Availability -->
+                <div class="availability-box">
+
+                    <div>
+                        <h3>Donor Availability</h3>
+
+                        <p>
+                            Let others know whether you are currently
+                            available to donate blood.
+                        </p>
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="availabilityToggle"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= SEARCH ================= -->
+            <div class="card search-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <p class="small-label">FIND A DONOR</p>
+                        <h2>Search Blood Donors</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="search-area">
+
+                    <label for="bloodSearch">
+                        Blood Group
+                    </label>
+
+                    <div class="search-row">
+
+                        <select id="bloodSearch">
+
+                            <option value="">
+                                All Blood Groups
+                            </option>
+
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+
+                        </select>
+
+                        <button
+                            id="searchBtn"
+                            class="primary-btn"
+                        >
+                            Search
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Results -->
+                <div class="results-container">
+
+                    <div class="results-header">
+
+                        <h3>Available Donors</h3>
+
+                        <span id="resultCount">
+                            0 donors
+                        </span>
+
+                    </div>
+
+                    <div id="donorResults">
+
+                        <div class="empty-state">
+                            <div>🩸</div>
+                            <p>
+                                Select a blood group to find donors.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ================= EDIT MODAL ================= -->
+
+    <div
+        id="editModal"
+        class="modal-overlay hidden"
+    >
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <p class="small-label">PROFILE</p>
+                    <h2>Edit Information</h2>
+                </div>
+
+                <button
+                    id="closeModalBtn"
+                    class="close-btn"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="editForm">
+
+                <div class="form-group">
+
+                    <label for="editName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editName"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="editEmail"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editPhone">
+                        Cellphone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editPhone"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editBloodGroup">
+                        Blood Group
+                    </label>
+
+                    <select id="editBloodGroup" required>
+
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        id="cancelEditBtn"
+                        class="secondary-btn"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= TOAST ================= -->
+
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+
+    <script src="js/dashboard.js"></script>
+
+</body>
+</html>
