@@ -1,0 +1,234 @@
+/* ==========================================================================
+   DROP FOR LIFE — Modern UX layer (dark mode, glass, glow, liquid motion)
+   Lightweight: pure CSS transitions/keyframes + tiny JS hooks. No heavy libs.
+   ========================================================================== */
+
+:root{
+  --glass-bg: rgba(255,255,255,0.55);
+  --glass-border: rgba(255,255,255,0.6);
+  --glow-crimson: rgba(168,17,45,0.55);
+  --dur: .45s;
+}
+
+/* ---------- ANCHORS USED AS NAV/BUTTONS (multi-page split) ----------
+   Several nav items, footer links and header buttons are real <a> links now
+   (so pages can link to each other) instead of JS-only <button>s. This just
+   strips the underline so they still look like the original buttons. */
+a.nav-link, a.btn-outline, a.btn-primary, a.btn-ghost, a.link-btn, a.btn-text{
+  text-decoration: none;
+}
+a.nav-link{ display: inline-block; }
+.auth-links{ display: contents; }
+
+/* Standalone login/register pages: center the form card like the old modal did */
+.auth-shell{ display:flex; justify-content:center; padding-top:64px; }
+.auth-shell .modal-card{ width:100%; max-width:440px; }
+.auth-shell .modal-card--wide{ max-width:600px; }
+
+/* ---------- THEME TRANSITION ---------- */
+body, .site-nav, .mobile-drawer, .chat-panel, .notif-panel, .modal-root,
+.bento-tile, .dash-panel, .donor-card, .filter-field input, .filter-select,
+.btn-outline, .icon-btn{
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+/* ---------- DARK MODE ---------- */
+html[data-theme="dark"]{
+  --ink: #F3ECEC;
+  --slate: #B9A9AB;
+  --slate-light: #8A7678;
+  --line: #3A2226;
+  --ivory: #241417;
+  --white: #17090C;
+  --crimson-soft: #3A171D;
+}
+html[data-theme="dark"] body{ background: #120709; }
+html[data-theme="dark"] .site-nav{ background: rgba(18,7,9,0.65); border-bottom-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .icon-btn{ background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+html[data-theme="dark"] .filter-select,
+html[data-theme="dark"] .filter-field input{ background: rgba(255,255,255,0.06); color: var(--ink); border-color: rgba(255,255,255,0.14); }
+html[data-theme="dark"] .filter-select option{ background:#1c0f12; }
+html[data-theme="dark"] .mobile-drawer{ background: #180a0d; }
+html[data-theme="dark"] .bento-tile,
+html[data-theme="dark"] .dash-panel,
+html[data-theme="dark"] .donor-card,
+html[data-theme="dark"] .bank-card,
+html[data-theme="dark"] .event-card,
+html[data-theme="dark"] .leaderboard-row,
+html[data-theme="dark"] .request-card,
+html[data-theme="dark"] .modal-root > *,
+html[data-theme="dark"] .auth-shell .modal-card{ background: #1c0f12; border-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .modal-scrim{ background: rgba(0,0,0,0.65); }
+html[data-theme="dark"] .toast{ background:#1c0f12; color:#fff; border-color: rgba(255,255,255,0.1); }
+
+/* ---------- FROSTED GLASS SURFACES ---------- */
+.site-nav{
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+}
+html[data-theme="dark"] .site-nav{ background: rgba(18,7,9,0.55) !important; }
+
+.mobile-drawer, .chat-panel, .notif-panel{
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+html[data-theme="dark"] .mobile-drawer,
+html[data-theme="dark"] .chat-panel,
+html[data-theme="dark"] .notif-panel{
+  background: rgba(28,15,18,0.6);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.modal-root > *{
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  background: rgba(255,255,255,0.75) !important;
+}
+
+/* ==========================================================================
+   LIQUID GLASS THEME TOGGLE
+   ========================================================================== */
+.theme-toggle{
+  position: relative;
+  width: 52px; height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.15));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -2px 4px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.08);
+  transition: background .4s var(--ease);
+}
+html[data-theme="dark"] .theme-toggle{
+  background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), inset 0 -2px 4px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.3);
+}
+.theme-toggle-knob{
+  position:absolute; top:2px; left:2px;
+  width:24px; height:24px; border-radius:50%;
+  background: radial-gradient(circle at 32% 28%, #fff, #ffe9a8 45%, #f5c15a 100%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25), 0 0 10px rgba(245,193,90,0.7);
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1), background .4s var(--ease);
+  display:flex; align-items:center; justify-content:center;
+}
+.theme-toggle-knob svg{ width:13px; height:13px; color:#8a5a00; transition: opacity .3s var(--ease), transform .4s var(--ease); }
+html[data-theme="dark"] .theme-toggle-knob{
+  transform: translateX(22px);
+  background: radial-gradient(circle at 32% 28%, #6f6f8a, #2b2b45 55%, #12121f 100%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 10px rgba(120,120,220,0.45);
+}
+html[data-theme="dark"] .theme-toggle-knob svg{ color:#cfd0ff; transform: rotate(-30deg); }
+.theme-toggle:active .theme-toggle-knob{ width:28px; } /* liquid squish on press */
+html[data-theme="dark"] .theme-toggle:active .theme-toggle-knob{ transform: translateX(18px); width:28px; }
+
+/* ==========================================================================
+   ANIMATED SEARCH BAR
+   ========================================================================== */
+.filter-field--search{
+  position:relative; overflow:hidden; border-radius: 999px;
+  transition: box-shadow .35s var(--ease), transform .2s var(--ease);
+}
+.filter-field--search::before{
+  content:""; position:absolute; inset:-1px; border-radius:999px; padding:1px;
+  background: conic-gradient(from 0deg, var(--crimson), transparent 30%, transparent 70%, var(--crimson));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity:0; transition: opacity .3s var(--ease);
+  animation: spin-glow 3.2s linear infinite paused;
+  pointer-events:none;
+}
+.filter-field--search:focus-within::before{ opacity:1; animation-play-state: running; }
+.filter-field--search:focus-within{ box-shadow: 0 6px 22px var(--glow-crimson); transform: translateY(-1px); }
+.filter-field--search input{ border-radius:999px !important; }
+.filter-field--search svg{ transition: transform .3s var(--ease), color .3s var(--ease); }
+.filter-field--search:focus-within svg{ color: var(--crimson); transform: translateY(-50%) scale(1.15); }
+@keyframes spin-glow{ to{ transform: rotate(360deg); } }
+
+/* ==========================================================================
+   INTERACTIVE GLOW BUTTONS
+   ========================================================================== */
+.btn-primary, .btn-outline, .btn-ghost{
+  position:relative; overflow:hidden; isolation:isolate;
+}
+.btn-primary::after, .btn-outline::after, .btn-ghost::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; z-index:-1;
+  background: radial-gradient(120px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.35), transparent 60%);
+  opacity:0; transition: opacity .25s var(--ease);
+}
+.btn-primary:hover::after, .btn-outline:hover::after, .btn-ghost:hover::after{ opacity:1; }
+.btn-outline::after{ background: radial-gradient(120px circle at var(--mx,50%) var(--my,50%), var(--glow-crimson), transparent 60%); }
+.btn-primary{ box-shadow: 0 1px 2px rgba(27,5,8,0.06), 0 0 0 rgba(168,17,45,0); }
+.btn-primary:hover{ box-shadow: 0 8px 26px var(--glow-crimson); }
+.btn-primary:active, .btn-outline:active, .btn-ghost:active{ transform: scale(.96) !important; }
+
+/* ==========================================================================
+   CONTINUE / SUBMIT BUTTON INTERACTION (liquid morph -> success)
+   ========================================================================== */
+.btn-continue{ min-width: 140px; }
+.btn-continue .btn-continue-label,
+.btn-continue .btn-continue-check{ transition: opacity .25s var(--ease), transform .35s cubic-bezier(.34,1.56,.64,1); }
+.btn-continue .btn-continue-check{ position:absolute; opacity:0; transform: scale(.4) rotate(-20deg); }
+.btn-continue.is-loading{ border-radius: 999px; pointer-events:none; }
+.btn-continue.is-loading .btn-continue-label{ opacity:0; transform: scale(.7); }
+.btn-continue.is-loading{ width: 44px !important; padding:0 !important; }
+.btn-continue.is-success{ background: var(--success) !important; }
+.btn-continue.is-success .btn-continue-check{ opacity:1; transform: scale(1) rotate(0deg); }
+.btn-continue.is-success .btn-continue-label{ opacity:0; }
+.btn-continue-spinner{
+  position:absolute; inset:0; margin:auto; width:18px; height:18px;
+  border-radius:50%; border:2px solid rgba(255,255,255,0.35); border-top-color:#fff;
+  opacity:0; animation: spin .6s linear infinite;
+}
+.btn-continue.is-loading .btn-continue-spinner{ opacity:1; }
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+/* ==========================================================================
+   LIQUID GLASS MOBILE MENU (horizontal, bottom, only on small screens)
+   ========================================================================== */
+.liquid-tabbar{
+  display:none;
+  position:fixed; left:50%; bottom:14px; transform: translateX(-50%);
+  z-index:150; gap:2px; padding:6px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 10px 30px rgba(27,5,8,0.18);
+  max-width: calc(100vw - 24px);
+  overflow-x:auto;
+  -ms-overflow-style:none; scrollbar-width:none;
+}
+.liquid-tabbar::-webkit-scrollbar{ display:none; }
+html[data-theme="dark"] .liquid-tabbar{ background: rgba(28,15,18,0.65); border-color: rgba(255,255,255,0.1); }
+.liquid-tab{
+  position:relative; z-index:1; background:none; border:none; color: var(--slate);
+  padding:9px 14px; border-radius:999px; font-size:0.78rem; font-weight:600;
+  display:flex; flex-direction:column; align-items:center; gap:3px; white-space:nowrap;
+  transition: color .3s var(--ease);
+}
+.liquid-tab svg{ width:18px; height:18px; }
+.liquid-tab.is-active{ color:#fff; }
+.liquid-tabbar-indicator{
+  position:absolute; top:6px; bottom:6px; left:6px;
+  border-radius:999px; background: var(--crimson);
+  box-shadow: 0 4px 14px var(--glow-crimson);
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1), width .45s cubic-bezier(.34,1.56,.64,1);
+  z-index:0;
+}
+@media (max-width: 720px){
+  .liquid-tabbar{ display:flex; }
+  .site-footer{ padding-bottom: 84px; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .theme-toggle-knob, .liquid-tabbar-indicator, .btn-continue *{ transition:none !important; animation:none !important; }
+}
