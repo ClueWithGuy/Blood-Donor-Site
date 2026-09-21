@@ -16,7 +16,7 @@ def create_app():
   app.register_blueprint(main)
 
   frontend_folder = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "frontend-arman")
+    os.path.join(os.path.dirname(__file__), "..", "frontend")
   )
 
   @app.route("/")
