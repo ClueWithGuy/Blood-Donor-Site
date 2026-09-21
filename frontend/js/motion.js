@@ -82,7 +82,7 @@
       }
       window.requestAnimationFrame(step);
     }
-    var numEls = document.querySelectorAll(".hero-stat-num, .kpi-num, .stat-card span");
+    var numEls = document.querySelectorAll(".hero-stat-num, .stat-card span");
     if (numEls.length){
       var numIo = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){

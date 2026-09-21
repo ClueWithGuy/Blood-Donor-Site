@@ -16,7 +16,7 @@ def create_app():
   app.register_blueprint(main)
 
   frontend_folder = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "frontend")
+    os.path.join(os.path.dirname(__file__), "..", "frontend-arman")
   )
 
   @app.route("/")
@@ -34,6 +34,10 @@ def create_app():
   @app.route("/dashboard")
   def dashborad_page():
     return send_from_directory(frontend_folder, "dashboard.html")
+
+  @app.route("/requests")
+  def requests_page():
+    return send_from_directory(frontend_folder, "requests.html")
 
   @app.route("/find_donor")
   def find_donor_page():
@@ -54,6 +58,11 @@ def create_app():
       os.path.join(frontend_folder, "js"),
       filename
     )
+
+  @app.route("/team")
+  def team_page():
+    return send_from_directory(frontend_folder, "team.html")
+
   
   return app
 

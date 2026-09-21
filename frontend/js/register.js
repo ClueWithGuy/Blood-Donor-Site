@@ -1,85 +1,119 @@
-const form = document.getElementById("registerForm");
-const message = document.getElementById("message");
-const registerBtn = document.getElementById("registerBtn");
+document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.querySelector("#register-form");
+    const message = document.querySelector("#form-message");
+    const button = document.querySelector("#register-button");
 
 
-form.addEventListener("submit", async function (event) {
-
-    event.preventDefault();
-
-    // Disable button while registering
-    registerBtn.disabled = true;
-    registerBtn.innerHTML = "<span>Registering...</span>";
-
-    message.textContent = "";
-    message.className = "message";
+    if (!form) {
+        console.error("Registration form not found.");
+        return;
+    }
 
 
-    const donorData = {
-        school_id: document.getElementById("school_id").value.trim(),
-        name: document.getElementById("name").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        password: document.getElementById("password").value,
-        cellphone: document.getElementById("cellphone").value.trim(),
-        blood_group: document.getElementById("blood_group").value
-    };
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = `form-message ${type}`;
+    }
 
 
-    try {
+    form.addEventListener("submit", async (event) => {
 
-        const response = await fetch("/api/register", {
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify(donorData)
-        });
+        event.preventDefault();
 
 
-        const result = await response.json();
+        const schoolId = document
+            .querySelector("#school-id")
+            .value
+            .trim();
+
+        const name = document
+            .querySelector("#name")
+            .value
+            .trim();
+
+        const email = document
+            .querySelector("#email")
+            .value
+            .trim();
+
+        const cellphone = document
+            .querySelector("#cellphone")
+            .value
+            .trim();
+
+        const bloodGroup = document
+            .querySelector("#blood-group")
+            .value;
+
+        const password = document
+            .querySelector("#password")
+            .value;
 
 
-        if (response.ok) {
+        if (
+            !schoolId ||
+            !name ||
+            !email ||
+            !cellphone ||
+            !bloodGroup ||
+            !password
+        ) {
+            showMessage(
+                "Please fill in all fields.",
+                "error"
+            );
 
-            message.textContent =
-                result.message || "Registration successful!";
+            return;
+        }
 
-            message.className = "message success";
+
+        button.disabled = true;
+        button.textContent = "Creating account...";
+
+        showMessage("", "");
+
+
+        try {
+
+            const result = await API.register({
+                school_id: schoolId,
+                name: name,
+                email: email,
+                password: password,
+                cellphone: cellphone,
+                blood_group: bloodGroup
+            });
+
+
+            showMessage(
+                result.message || "Account created successfully.",
+                "success"
+            );
+
 
             form.reset();
 
 
-        } else {
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 1500);
 
-            message.textContent =
-                result.error || "Registration failed.";
 
-            message.className = "message error";
+        } catch (error) {
+
+            showMessage(
+                error.message || "Registration failed.",
+                "error"
+            );
+
+        } finally {
+
+            button.disabled = false;
+            button.textContent = "Create Account";
 
         }
 
-
-    } catch (error) {
-
-        console.error("Registration error:", error);
-
-        message.textContent =
-            "Could not connect to the server.";
-
-        message.className = "message error";
-
-
-    } finally {
-
-        registerBtn.disabled = false;
-
-        registerBtn.innerHTML = `
-            <span>Register as Donor</span>
-            <span class="arrow">→</span>
-        `;
-
-    }
+    });
 
 });

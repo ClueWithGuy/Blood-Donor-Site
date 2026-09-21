@@ -1,260 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Blood Donor Dashboard</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Dashboard — Drop For Life</title>
+
+    <meta
+        name="description"
+        content="Your Drop For Life donor dashboard."
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/enhance.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/motion.css"
+    >
 </head>
+
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
-    <header class="navbar">
 
-        <div class="brand">
-            <div class="brand-icon">🩸</div>
-            <div>
-                <h2>BloodConnect</h2>
-                <span>Donor Portal</span>
+<!-- =====================================================
+     APP
+     ===================================================== -->
+
+<div id="app" class="app">
+
+
+    <!-- =================================================
+         NAVIGATION
+         ================================================= -->
+
+    <header
+        class="site-nav"
+        id="site-nav"
+    >
+
+        <div class="nav-inner">
+
+
+            <!-- BRAND -->
+
+            <a
+                href="/"
+                class="nav-brand"
+            >
+
+                <svg
+                    viewBox="0 0 48 56"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"
+                        stroke="currentColor"
+                        stroke-width="4"
+                        stroke-linejoin="round"
+                    />
+
+                </svg>
+
+                <span>
+                    Drop For Life
+                </span>
+
+            </a>
+
+
+            <!-- DESKTOP LINKS -->
+
+            <nav
+                class="nav-links"
+                id="nav-links"
+            >
+
+                <a
+                    class="nav-link"
+                    href="/"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="nav-link is-active"
+                    href="/dashboard"
+                >
+                    Dashboard
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="/find_donor"
+                >
+                    Find Donors
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="/requests"
+                >
+                    Requests
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="/team"
+                >
+                    Team
+                </a>
+
+            </nav>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="nav-actions">
+
+                <span
+                    class="auth-links"
+                    id="auth-links"
+                >
+
+                    <a
+                        class="btn-outline btn-sm"
+                        href="/login"
+                    >
+                        Sign in
+                    </a>
+
+                    <a
+                        class="btn-primary btn-sm"
+                        href="/register"
+                    >
+                        Join as donor
+                    </a>
+
+                </span>
+
+
+                <button
+                    class="profile-chip hidden"
+                    id="profile-chip"
+                    type="button"
+                    aria-label="Open profile"
+                >
+
+                    <span
+                        class="avatar-dot"
+                        id="profile-initial"
+                    >
+                        D
+                    </span>
+
+                </button>
+
             </div>
-        </div>
 
-        <div class="nav-right">
-            <span id="navUserName">Loading...</span>
-            <button id="logoutBtn" class="logout-btn">
-                Logout
+
+            <!-- MOBILE MENU -->
+
+            <button
+                class="nav-burger"
+                id="nav-burger"
+                type="button"
+                aria-label="Open menu"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
             </button>
+
         </div>
 
     </header>
 
 
-    <!-- ================= MAIN ================= -->
-    <main class="dashboard-container">
+    <!-- =================================================
+         MOBILE DRAWER
+         ================================================= -->
 
-        <!-- Welcome -->
-        <section class="welcome-section">
+    <div
+        class="mobile-drawer"
+        id="mobile-drawer"
+    >
 
-            <div>
-                <p class="small-label">DONOR DASHBOARD</p>
+        <a
+            class="nav-link"
+            href="/"
+        >
+            Home
+        </a>
 
-                <h1>
-                    Welcome, <span id="welcomeName">Donor</span> 👋
-                </h1>
+        <a
+            class="nav-link is-active"
+            href="/dashboard"
+        >
+            Dashboard
+        </a>
 
-                <p>
-                    Manage your donor information and help people
-                    find the blood they need.
-                </p>
-            </div>
+        <a
+            class="nav-link"
+            href="/find_donor"
+        >
+            Find Donors
+        </a>
 
-        </section>
+        <a
+            class="nav-link"
+            href="/requests"
+        >
+            Requests
+        </a>
 
+        <a
+            class="nav-link"
+            href="/team"
+        >
+            Team
+        </a>
 
-        <!-- ================= STAT CARDS ================= -->
-        <section class="stats-grid">
 
-            <div class="stat-card blood-card">
+        <hr>
 
-                <div class="stat-icon">
-                    🩸
-                </div>
 
-                <div>
-                    <span>Blood Group</span>
-                    <h2 id="bloodGroup">--</h2>
-                </div>
+        <span
+            class="auth-links"
+            id="auth-links-m"
+        >
 
-            </div>
+            <a
+                class="btn-outline"
+                href="/login"
+            >
+                Sign in
+            </a>
 
+            <a
+                class="btn-primary"
+                href="/register"
+            >
+                Join as donor
+            </a>
 
-            <div class="stat-card">
+        </span>
 
-                <div class="stat-icon blue">
-                    👤
-                </div>
+    </div>
 
-                <div>
-                    <span>School ID</span>
-                    <h3 id="schoolId">--</h3>
-                </div>
 
-            </div>
+    <!-- =================================================
+         MAIN DASHBOARD
+         ================================================= -->
 
+    <main id="main-views">
 
-            <div class="stat-card">
+        <section
+            class="view is-active"
+            id="view-dashboard"
+            data-view="dashboard"
+        >
 
-                <div class="stat-icon green">
-                    ●
-                </div>
+            <div class="view-shell">
 
-                <div>
-                    <span>Availability</span>
-                    <h3 id="availabilityText">Checking...</h3>
-                </div>
 
-            </div>
+                <div class="dash-grid">
 
-        </section>
 
+                    <!-- =================================
+                         LEFT SIDEBAR
+                         ================================= -->
 
-        <!-- ================= CONTENT GRID ================= -->
-        <section class="content-grid">
+                    <aside class="dash-rail">
 
 
-            <!-- ================= PROFILE ================= -->
-            <div class="card profile-card">
+                        <!-- PROFILE -->
 
-                <div class="card-header">
+                        <div class="rail-card profile-card">
 
-                    <div>
-                        <p class="small-label">MY PROFILE</p>
-                        <h2>Donor Information</h2>
-                    </div>
+                            <div class="profile-card-top">
 
-                    <button id="editProfileBtn" class="secondary-btn">
-                        ✏️ Edit
-                    </button>
 
-                </div>
+                                <span
+                                    class="avatar-dot avatar-dot--lg"
+                                    id="dash-avatar"
+                                >
+                                    D
+                                </span>
 
 
-                <div class="profile-info">
+                                <div>
 
-                    <div class="info-item">
-                        <span class="info-label">Full Name</span>
-                        <strong id="profileName">--</strong>
-                    </div>
+                                    <h3 id="dash-name">
+                                        Guest Donor
+                                    </h3>
 
-                    <div class="info-item">
-                        <span class="info-label">School ID</span>
-                        <strong id="profileSchoolId">--</strong>
-                    </div>
+                                    <p
+                                        class="muted"
+                                        id="dash-meta"
+                                    >
+                                        Loading profile...
+                                    </p>
 
-                    <div class="info-item">
-                        <span class="info-label">Email</span>
-                        <strong id="profileEmail">--</strong>
-                    </div>
+                                </div>
 
-                    <div class="info-item">
-                        <span class="info-label">Cellphone</span>
-                        <strong id="profilePhone">--</strong>
-                    </div>
+                            </div>
 
-                    <div class="info-item">
-                        <span class="info-label">Blood Group</span>
-                        <strong id="profileBloodGroup" class="blood-text">--</strong>
-                    </div>
 
-                </div>
+                            <!-- profile.js depends on this attribute -->
 
+                            <button
+                                class="btn-text btn-block"
+                                data-nav-modal="edit-profile"
+                                type="button"
+                            >
+                                Edit profile
+                            </button>
 
-                <!-- Availability -->
-                <div class="availability-box">
-
-                    <div>
-                        <h3>Donor Availability</h3>
-
-                        <p>
-                            Let others know whether you are currently
-                            available to donate blood.
-                        </p>
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="availabilityToggle"
-                        >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ================= SEARCH ================= -->
-            <div class="card search-card">
-
-                <div class="card-header">
-
-                    <div>
-                        <p class="small-label">FIND A DONOR</p>
-                        <h2>Search Blood Donors</h2>
-                    </div>
-
-                </div>
-
-
-                <div class="search-area">
-
-                    <label for="bloodSearch">
-                        Blood Group
-                    </label>
-
-                    <div class="search-row">
-
-                        <select id="bloodSearch">
-
-                            <option value="">
-                                All Blood Groups
-                            </option>
-
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-
-                        </select>
-
-                        <button
-                            id="searchBtn"
-                            class="primary-btn"
-                        >
-                            Search
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Results -->
-                <div class="results-container">
-
-                    <div class="results-header">
-
-                        <h3>Available Donors</h3>
-
-                        <span id="resultCount">
-                            0 donors
-                        </span>
-
-                    </div>
-
-                    <div id="donorResults">
-
-                        <div class="empty-state">
-                            <div>🩸</div>
-                            <p>
-                                Select a blood group to find donors.
-                            </p>
                         </div>
+
+
+                        <!-- AVAILABILITY -->
+
+                        <div class="rail-card availability-card">
+
+                            <div class="availability-head">
+
+                                <div>
+
+                                    <h4>
+                                        Available to donate
+                                    </h4>
+
+                                    <p
+                                        class="muted"
+                                        id="availability-sub"
+                                    >
+                                        Your availability status
+                                    </p>
+
+                                </div>
+
+
+                                <button
+                                    class="toggle"
+                                    id="availability-toggle"
+                                    type="button"
+                                    role="switch"
+                                    aria-checked="false"
+                                    aria-label="Toggle donor availability"
+                                >
+
+                                    <span class="toggle-knob"></span>
+
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                class="availability-status"
+                                id="availability-status"
+                                hidden
+                            >
+
+                                <span
+                                    class="status-dot status-dot--live"
+                                ></span>
+
+                                <span
+                                    id="availability-location-text"
+                                >
+                                    Available to donate
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DONATION HISTORY -->
+
+                        <div class="rail-card">
+
+                            <h4>
+                                Your donation history
+                            </h4>
+
+
+                            <ul
+                                class="history-list"
+                                id="history-list"
+                            >
+
+                                <li class="history-empty">
+                                    Loading donation history...
+                                </li>
+
+                            </ul>
+
+
+                            <button
+                                class="btn-outline btn-sm btn-block"
+                                id="log-donation-btn"
+                                type="button"
+                            >
+                                Log a donation
+                            </button>
+
+                        </div>
+
+
+                        <!-- BADGES -->
+
+                        <div class="rail-card">
+
+                            <h4>
+                                Badges
+                            </h4>
+
+
+                            <div
+                                class="badge-row"
+                                id="badge-row"
+                            >
+
+                                <!-- dashboard.js replaces these -->
+
+                            </div>
+
+                        </div>
+
+
+                    </aside>
+
+
+                    <!-- =================================
+                         MAIN DASHBOARD COLUMN
+                         ================================= -->
+
+                    <div class="dash-main">
+
+
+                        <!-- HEADER -->
+
+                        <div class="dash-toprow">
+
+                            <div>
+
+                                <h2>
+                                    Dashboard
+                                </h2>
+
+                                <p class="muted">
+                                    Manage your donor profile,
+                                    donations and blood requests.
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                class="btn-text"
+                                id="inbox-btn"
+                                type="button"
+                            >
+                                Messages
+
+                                <span
+                                    class="icon-dot"
+                                    id="inbox-dot"
+                                    hidden
+                                ></span>
+
+                            </button>
+
+
+                            <button
+                                class="btn-primary btn-sm"
+                                id="dash-new-request"
+                                type="button"
+                            >
+                                New request
+                            </button>
+
+                        </div>
+
+
+                        <!-- =================================
+                             STATISTICS
+                             ================================= -->
+
+                        <div class="dash-kpis">
+
+
+                            <div class="kpi-card">
+
+                                <span
+                                    class="kpi-num"
+                                    id="kpi-open-requests"
+                                >
+                                    0
+                                </span>
+
+                                <span class="kpi-label">
+                                    Open blood requests
+                                </span>
+
+                            </div>
+
+
+                            <div class="kpi-card">
+
+                                <span
+                                    class="kpi-num"
+                                    id="kpi-available-donors"
+                                >
+                                    0
+                                </span>
+
+                                <span class="kpi-label">
+                                    Available donors
+                                </span>
+
+                            </div>
+
+
+                            <div class="kpi-card">
+
+                                <span
+                                    class="kpi-num"
+                                    id="kpi-unread-messages"
+                                >
+                                    0
+                                </span>
+
+                                <span class="kpi-label">
+                                    Unread messages
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =================================
+                             ACTIVE REQUESTS
+                             ================================= -->
+
+                        <div class="dash-panel">
+
+                            <div class="panel-head">
+
+                                <h3>
+                                    Active blood requests
+                                </h3>
+
+
+                                <a
+                                    class="btn-text"
+                                    href="/requests"
+                                >
+                                    View all
+                                </a>
+
+                            </div>
+
+
+                            <div
+                                class="request-list"
+                                id="dash-request-list"
+                            >
+
+                                <div class="request-empty">
+                                    Loading blood requests...
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================
+                             AVAILABLE DONORS
+                             ================================= -->
+
+                        <div class="dash-panel">
+
+                            <div class="panel-head">
+
+                                <h3>
+                                    Available donors
+                                </h3>
+
+
+                                <a
+                                    class="btn-text"
+                                    href="/find_donor"
+                                >
+                                    Open directory
+                                </a>
+
+                            </div>
+
+
+                            <div
+                                class="donor-strip"
+                                id="dash-donor-strip"
+                            >
+
+                                <div class="request-empty">
+
+                                    <strong>
+                                        <span id="available-donor-summary">
+                                            Available donors
+                                        </span>
+                                    </strong>
+
+                                    <p class="muted">
+                                        Search the donor directory
+                                        to find donors by blood group.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
 
                     </div>
 
@@ -267,140 +669,254 @@
     </main>
 
 
-
-    <!-- ================= EDIT MODAL ================= -->
+    <!-- =================================================
+         MESSAGES
+         ================================================= -->
 
     <div
-        id="editModal"
-        class="modal-overlay hidden"
+        class="chat-panel"
+        id="chat-panel"
     >
 
-        <div class="modal">
+        <div class="chat-panel-head">
 
-            <div class="modal-header">
+            <h3>
+                Messages
+            </h3>
 
-                <div>
-                    <p class="small-label">PROFILE</p>
-                    <h2>Edit Information</h2>
-                </div>
 
-                <button
-                    id="closeModalBtn"
-                    class="close-btn"
+            <button
+                class="icon-btn"
+                id="chat-close"
+                type="button"
+                aria-label="Close messages"
+            >
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
                 >
-                    ×
-                </button>
+
+                    <path
+                        d="M18 6L6 18M6 6l12 12"
+                    />
+
+                </svg>
+
+            </button>
+
+        </div>
+
+
+        <div class="chat-body">
+
+            <div
+                class="chat-thread-list"
+                id="chat-thread-list"
+            ></div>
+
+
+            <div
+                class="chat-conversation"
+                id="chat-conversation"
+            >
+
+                <div class="chat-empty">
+                    Select a conversation to start messaging.
+                </div>
 
             </div>
-
-
-            <form id="editForm">
-
-                <div class="form-group">
-
-                    <label for="editName">
-                        Full Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="editName"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="editEmail">
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="editEmail"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="editPhone">
-                        Cellphone
-                    </label>
-
-                    <input
-                        type="text"
-                        id="editPhone"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="editBloodGroup">
-                        Blood Group
-                    </label>
-
-                    <select id="editBloodGroup" required>
-
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="modal-actions">
-
-                    <button
-                        type="button"
-                        id="cancelEditBtn"
-                        class="secondary-btn"
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="primary-btn"
-                    >
-                        Save Changes
-                    </button>
-
-                </div>
-
-            </form>
 
         </div>
 
     </div>
 
 
-
-    <!-- ================= TOAST ================= -->
-
-    <div id="toast" class="toast">
-        <span id="toastMessage"></span>
-    </div>
+    <div
+        class="scrim"
+        id="chat-scrim"
+    ></div>
 
 
-    <script src="js/dashboard.js"></script>
+    <!-- =================================================
+         FOOTER
+         ================================================= -->
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+
+            <div class="footer-brand">
+
+                <svg
+                    viewBox="0 0 48 56"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 35.0457 55 24 55C12.9543 55 4 48.2696 4 37.5C4 24.5 24 2 24 2Z"
+                        stroke="currentColor"
+                        stroke-width="4"
+                        stroke-linejoin="round"
+                    />
+
+                </svg>
+
+
+                <span>
+                    Drop For Life
+                </span>
+
+
+                <p class="muted">
+                    A student-built blood donation network.
+                    University web project.
+                </p>
+
+            </div>
+
+
+            <div class="footer-cols">
+
+
+                <div>
+
+                    <h5>
+                        Platform
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/find_donor"
+                    >
+                        Find donors
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/requests"
+                    >
+                        Blood requests
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/dashboard"
+                    >
+                        Dashboard
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h5>
+                        Account
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/login"
+                    >
+                        Sign in
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/register"
+                    >
+                        Register as donor
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h5>
+                        Project
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/team"
+                    >
+                        Team
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/"
+                    >
+                        About Drop For Life
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 Drop For Life.
+                Built for a university web development course.
+            </span>
+
+        </div>
+
+    </footer>
+
+
+</div>
+
+
+<!-- =====================================================
+     MODALS
+     ===================================================== -->
+
+<div
+    class="modal-scrim"
+    id="modal-scrim"
+></div>
+
+
+<div
+    class="modal-root"
+    id="modal-root"
+></div>
+
+
+<!-- =====================================================
+     TOASTS
+     ===================================================== -->
+
+<div
+    class="toast-stack"
+    id="toast-stack"
+    aria-live="polite"
+></div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script src="/js/api.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="/js/profile.js"></script>
+<script src="/js/enhance.js"></script>
+<script src="/js/motion.js"></script>
+
 
 </body>
 </html>

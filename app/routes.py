@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, render_template
 from .database import db
-from .models import Donor
+from .models import Donor, Donation, BloodRequest, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint("main", __name__)
@@ -189,4 +189,344 @@ def get_donor(school_id):
         "is_active": donor.is_active,
     }), 200
 
+
+@main.route("/api/donors/<school_id>/donations", methods=["GET"])
+def get_donations(school_id):
+    donor = Donor.query.filter_by(
+        school_id=school_id
+    ).first()
+
+    if not donor:
+        return jsonify({
+            "error": "Donor not found"
+        }), 404
+
+    donations = Donation.query.filter_by(
+        donor_school_id=school_id
+    ).order_by(
+        Donation.donation_date.desc()
+    ).all()
+
+    donation_list = []
+
+    for donation in donations:
+        donation_list.append({
+            "id": donation.id,
+            "donation_date": donation.donation_date.isoformat(),
+            "notes": donation.notes
+        })
+
+    return jsonify(donation_list), 200
+
+
+@main.route("/api/donors/<school_id>/donations", methods=["POST"])
+def create_donation(school_id):
+    donor = Donor.query.filter_by(
+        school_id=school_id
+    ).first()
+
+    if not donor:
+        return jsonify({
+            "error": "Donor not found"
+        }), 404
+
+    data = request.get_json() or {}
+
+    donation = Donation(
+        donor_school_id=school_id,
+        notes=data.get("notes")
+    )
+
+    db.session.add(donation)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Donation logged successfully",
+        "donation": {
+            "id": donation.id,
+            "donation_date": donation.donation_date.isoformat(),
+            "notes": donation.notes
+        }
+    }), 201
+
+@main.route("/api/requests", methods=["GET"])
+def get_requests():
+    requests = BloodRequest.query.filter_by(
+        status="open"
+    ).order_by(
+        BloodRequest.created_at.desc()
+    ).all()
+
+    request_list = []
+
+    for blood_request in requests:
+        request_list.append({
+            "id": blood_request.id,
+            "requester_school_id": blood_request.requester_school_id,
+            "patient_name": blood_request.patient_name,
+            "blood_group": blood_request.blood_group,
+            "hospital": blood_request.hospital,
+            "contact": blood_request.contact,
+            "urgency": blood_request.urgency,
+            "status": blood_request.status,
+            "created_at": blood_request.created_at.isoformat()
+        })
+
+    return jsonify(request_list), 200
+
+
+@main.route("/api/requests", methods=["POST"])
+def create_request():
+    data = request.get_json() or {}
+
+    required_fields = [
+        "requester_school_id",
+        "patient_name",
+        "blood_group",
+        "hospital",
+        "contact"
+    ]
+
+    for field in required_fields:
+        if not data.get(field):
+            return jsonify({
+                "error": f"{field} is required"
+            }), 400
+
+    donor = Donor.query.filter_by(
+        school_id=data["requester_school_id"]
+    ).first()
+
+    if not donor:
+        return jsonify({
+            "error": "Requester not found"
+        }), 404
+
+    blood_request = BloodRequest(
+        requester_school_id=data["requester_school_id"],
+        patient_name=data["patient_name"],
+        blood_group=data["blood_group"],
+        hospital=data["hospital"],
+        contact=data["contact"],
+        urgency=data.get("urgency", "normal"),
+        status="open"
+    )
+
+    db.session.add(blood_request)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Blood request created successfully",
+        "request": {
+            "id": blood_request.id,
+            "patient_name": blood_request.patient_name,
+            "blood_group": blood_request.blood_group,
+            "hospital": blood_request.hospital,
+            "urgency": blood_request.urgency,
+            "status": blood_request.status
+        }
+    }), 201
+
+@main.route("/api/messages", methods=["GET"])
+def get_messages():
+    school_id = request.args.get("school_id")
+
+    if not school_id:
+        return jsonify({
+            "error": "school_id is required"
+        }), 400
+
+    donor = Donor.query.filter_by(
+        school_id=school_id
+    ).first()
+
+    if not donor:
+        return jsonify({
+            "error": "Donor not found"
+        }), 404
+
+    messages = Message.query.filter(
+        (Message.sender_school_id == school_id) |
+        (Message.receiver_school_id == school_id)
+    ).order_by(
+        Message.created_at.desc()
+    ).all()
+
+    message_list = []
+
+    for message in messages:
+        message_list.append({
+            "id": message.id,
+            "sender_school_id": message.sender_school_id,
+            "receiver_school_id": message.receiver_school_id,
+            "message": message.message,
+            "is_read": message.is_read,
+            "created_at": message.created_at.isoformat()
+        })
+
+    unread_count = Message.query.filter_by(
+        receiver_school_id=school_id,
+        is_read=False
+    ).count()
+
+    return jsonify({
+        "messages": message_list,
+        "unread_count": unread_count
+    }), 200
+
+
+@main.route("/api/messages", methods=["POST"])
+def create_message():
+    data = request.get_json() or {}
+
+    required_fields = [
+        "sender_school_id",
+        "receiver_school_id",
+        "message"
+    ]
+
+    for field in required_fields:
+        if not data.get(field):
+            return jsonify({
+                "error": f"{field} is required"
+            }), 400
+
+    sender = Donor.query.filter_by(
+        school_id=data["sender_school_id"]
+    ).first()
+
+    receiver = Donor.query.filter_by(
+        school_id=data["receiver_school_id"]
+    ).first()
+
+    if not sender or not receiver:
+        return jsonify({
+            "error": "Sender or receiver not found"
+        }), 404
+
+    new_message = Message(
+        sender_school_id=data["sender_school_id"],
+        receiver_school_id=data["receiver_school_id"],
+        message=data["message"]
+    )
+
+    db.session.add(new_message)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Message sent successfully",
+        "data": {
+            "id": new_message.id,
+            "sender_school_id": new_message.sender_school_id,
+            "receiver_school_id": new_message.receiver_school_id,
+            "message": new_message.message,
+            "is_read": new_message.is_read,
+            "created_at": new_message.created_at.isoformat()
+        }
+    }), 201
+
+
+@main.route("/api/messages/<int:message_id>/read", methods=["PUT"])
+def mark_message_read(message_id):
+    message = Message.query.get(message_id)
+
+    if not message:
+        return jsonify({
+            "error": "Message not found"
+        }), 404
+
+    message.is_read = True
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Message marked as read",
+        "id": message.id,
+        "is_read": message.is_read
+    }), 200
+
+
+@main.route("/api/dashboard/<school_id>", methods=["GET"])
+def get_dashboard(school_id):
+    donor = Donor.query.filter_by(
+        school_id=school_id
+    ).first()
+
+    if not donor:
+        return jsonify({
+            "error": "Donor not found"
+        }), 404
+
+    donations = Donation.query.filter_by(
+        donor_school_id=school_id
+    ).order_by(
+        Donation.donation_date.desc()
+    ).all()
+
+    open_requests = BloodRequest.query.filter_by(
+        status="open"
+    ).order_by(
+        BloodRequest.created_at.desc()
+    ).all()
+
+    unread_messages = Message.query.filter_by(
+        receiver_school_id=school_id,
+        is_read=False
+    ).count()
+
+    available_donors = Donor.query.filter_by(
+        is_active=True
+    ).count()
+
+    donation_count = len(donations)
+
+    badges = {
+        "first_pint": donation_count >= 1,
+        "regular": donation_count >= 3,
+        "recruiter": False
+    }
+
+    return jsonify({
+        "donor": {
+            "school_id": donor.school_id,
+            "name": donor.name,
+            "email": donor.email,
+            "cellphone": donor.cellphone,
+            "blood_group": donor.blood_group,
+            "is_active": donor.is_active
+        },
+
+        "donations": [
+            {
+                "id": donation.id,
+                "donation_date": donation.donation_date.isoformat(),
+                "notes": donation.notes
+            }
+            for donation in donations
+        ],
+
+        "open_requests": [
+            {
+                "id": blood_request.id,
+                "requester_school_id": blood_request.requester_school_id,
+                "patient_name": blood_request.patient_name,
+                "blood_group": blood_request.blood_group,
+                "hospital": blood_request.hospital,
+                "contact": blood_request.contact,
+                "urgency": blood_request.urgency,
+                "status": blood_request.status,
+                "created_at": blood_request.created_at.isoformat()
+            }
+            for blood_request in open_requests
+        ],
+
+        "stats": {
+            "open_requests": len(open_requests),
+            "available_donors": available_donors,
+            "unread_messages": unread_messages,
+            "donation_count": donation_count
+        },
+
+        "badges": badges
+    }), 200
 

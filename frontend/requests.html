@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Blood Requests — Drop For Life</title>
+
+<meta
+    name="description"
+    content="View active blood requests on Drop For Life."
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhance.css">
+<link rel="stylesheet" href="css/motion.css">
+
+<style>
+.requests-page {
+    padding: 120px 24px 80px;
+}
+
+.requests-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.requests-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.requests-header h2 {
+    margin-bottom: 8px;
+}
+
+.requests-list {
+    display: grid;
+    gap: 16px;
+}
+
+.request-item {
+    padding: 22px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    background: white;
+}
+
+.request-item-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.request-item-blood {
+    min-width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.request-item-info {
+    flex: 1;
+}
+
+.request-item-info strong {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.request-item-info span {
+    display: block;
+    color: #777;
+}
+
+.request-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.request-item-urgency {
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.request-item-contact {
+    color: #666;
+}
+
+.request-empty {
+    padding: 40px;
+    text-align: center;
+}
+
+@media (max-width: 700px) {
+
+    .requests-page {
+        padding: 100px 16px 60px;
+    }
+
+    .requests-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .request-item-top {
+        align-items: flex-start;
+    }
+
+    .request-item-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="app" class="app">
+
+    <header class="site-nav" id="site-nav">
+
+        <div class="nav-inner">
+
+            <a href="/" class="nav-brand">
+
+                <svg
+                    viewBox="0 0 48 56"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"
+                        stroke="currentColor"
+                        stroke-width="4"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+
+                <span>Drop For Life</span>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a class="nav-link" href="/">
+                    Home
+                </a>
+
+                <a class="nav-link" href="/dashboard">
+                    Dashboard
+                </a>
+
+                <a class="nav-link" href="/find_donor">
+                    Find Donors
+                </a>
+
+                <a class="nav-link" href="/team">
+                    Team
+                </a>
+
+                <a class="nav-link is-active" href="/requests">
+                    Requests
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <span class="auth-links">
+
+                    <a
+                        class="btn-outline btn-sm"
+                        href="/login"
+                    >
+                        Sign in
+                    </a>
+
+                    <a
+                        class="btn-primary btn-sm"
+                        href="/register"
+                    >
+                        Join as donor
+                    </a>
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section class="requests-page">
+
+            <div class="requests-container">
+
+                <div class="requests-header">
+
+                    <div>
+
+                        <h2>
+                            Active blood requests
+                        </h2>
+
+                        <p class="muted">
+                            View current blood requests from donors and patients in the network.
+                        </p>
+
+                    </div>
+
+                    <a
+                        class="btn-outline btn-sm"
+                        href="/dashboard"
+                    >
+                        Back to dashboard
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="requests-list"
+                    id="request-list"
+                >
+
+                    <div class="request-empty">
+                        Loading requests...
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <span>
+                    Drop For Life
+                </span>
+
+                <p class="muted">
+                    A student-built blood donation network.
+                    University web project.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 Drop For Life.
+                Built for a university web development course.
+            </span>
+
+        </div>
+
+    </footer>
+
+</div>
+
+
+<script src="js/api.js"></script>
+<script src="js/requests.js"></script>
+
+</body>
+</html>

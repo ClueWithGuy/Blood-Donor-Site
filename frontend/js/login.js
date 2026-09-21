@@ -1,83 +1,106 @@
-const loginForm = document.getElementById("loginForm");
-const message = document.getElementById("message");
-const loginBtn = document.getElementById("loginBtn");
+document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.querySelector("#login-form");
+    const message = document.querySelector("#form-message");
+    const button = document.querySelector("#login-button");
 
 
-loginForm.addEventListener("submit", async function (event) {
-
-    event.preventDefault();
-
-
-    const schoolId = document.getElementById("school_id").value;
-    const password = document.getElementById("password").value;
+    if (!form) {
+        console.error("Login form not found.");
+        return;
+    }
 
 
-    message.textContent = "";
-    loginBtn.disabled = true;
-    loginBtn.textContent = "Logging in...";
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = `form-message ${type}`;
+    }
 
 
-    try {
+    form.addEventListener("submit", async (event) => {
 
-        const response = await fetch("/api/login", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                school_id: schoolId,
-                password: password
-            })
-
-        });
+        event.preventDefault();
 
 
-        const data = await response.json();
+        const schoolId = document
+            .querySelector("#school-id")
+            .value
+            .trim();
+
+        const password = document
+            .querySelector("#password")
+            .value;
 
 
-        if (!response.ok) {
-
-            message.textContent =
-                data.error || "Login failed.";
-
-            loginBtn.disabled = false;
-            loginBtn.textContent = "Login";
+        if (!schoolId || !password) {
+            showMessage(
+                "Please enter your school ID and password.",
+                "error"
+            );
 
             return;
         }
 
 
-        // Save logged-in donor information
-        localStorage.setItem(
-            "donor",
-            JSON.stringify(data)
-        );
+        button.disabled = true;
+        button.textContent = "Signing in...";
+
+        showMessage("", "");
 
 
-        message.textContent =
-            "Login successful! Redirecting...";
+        try {
+
+            const result = await API.login(
+                schoolId,
+                password
+            );
 
 
-        // Go to dashboard
-        setTimeout(function () {
-
-            window.location.href = "/dashboard";
-
-        }, 500);
+            showMessage(
+                result.message || "Login successful.",
+                "success"
+            );
 
 
-    } catch (error) {
+            /*
+             * Store the logged-in donor information
+             * so the dashboard can use it.
+             */
+            localStorage.setItem(
+                "school_id",
+                result.school_id
+            );
 
-        console.error(error);
+            localStorage.setItem(
+                "name",
+                result.name
+            );
 
-        message.textContent =
-            "Could not connect to the server.";
+            localStorage.setItem(
+                "email",
+                result.email
+            );
 
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Login";
-    }
+
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 1000);
+
+
+        } catch (error) {
+
+            showMessage(
+                error.message || "Login failed.",
+                "error"
+            );
+
+        } finally {
+
+            button.disabled = false;
+            button.textContent = "Sign In";
+
+        }
+
+    });
 
 });

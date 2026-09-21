@@ -4,119 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login | Blood Donor Finder</title>
+    <title>Login — Drop For Life</title>
 
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-
-        <a href="/" class="logo">
-            <span class="logo-icon">🩸</span>
-            <span>Blood Donor Finder</span>
-        </a>
-
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/register">Register</a>
-            <a href="/login" class="active">Login</a>
-        </div>
-
-    </nav>
-
-
-    <!-- Login Area -->
-    <main class="login-container">
+    <main class="login-page">
 
         <div class="login-card">
 
-            <!-- Header -->
             <div class="login-header">
-
-                <div class="blood-icon">
-                    🩸
-                </div>
+                <div class="logo">Drop For Life</div>
 
                 <h1>Welcome Back</h1>
 
                 <p>
-                    Login to access your donor dashboard
+                    Sign in to manage your donor account.
                 </p>
-
             </div>
 
 
-            <!-- Login Form -->
-            <form id="loginForm">
+            <form id="login-form">
 
+                <!-- School ID -->
                 <div class="form-group">
+                    <label for="school-id">School ID</label>
 
-                    <label for="school_id">
-                        Student ID
-                    </label>
-
-                    <div class="input-wrapper">
-                        <span class="input-icon">🎓</span>
-
-                        <input
-                            type="text"
-                            id="school_id"
-                            name="school_id"
-                            placeholder="Enter your Student ID"
-                            autocomplete="username"
-                            required
-                        >
-                    </div>
-
+                    <input
+                        id="school-id"
+                        type="text"
+                        placeholder="Enter your school ID"
+                        required
+                    >
                 </div>
 
 
+                <!-- Password -->
                 <div class="form-group">
+                    <label for="password">Password</label>
 
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <div class="input-wrapper">
-                        <span class="input-icon">🔒</span>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required
-                        >
-                    </div>
-
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        required
+                    >
                 </div>
 
 
-                <button type="submit" id="loginBtn" class="login-button">
-                    <span>Login</span>
-                    <span class="arrow">→</span>
+                <!-- Message -->
+                <div
+                    id="form-message"
+                    class="form-message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- Submit -->
+                <button
+                    id="login-button"
+                    type="submit"
+                >
+                    Sign In
                 </button>
 
             </form>
 
 
-            <!-- Login Message -->
-            <div id="message" class="message"></div>
-
-
-            <!-- Register Link -->
-            <div class="register-section">
-
-                <span>Don't have an account?</span>
-
-                <a href="/register">
-                    Register as a donor
-                </a>
-
+            <div class="login-footer">
+                Don't have an account?
+                <a href="/register">Register as a donor</a>
             </div>
 
         </div>
@@ -124,22 +84,8 @@
     </main>
 
 
-    <!-- Footer -->
-    <footer>
-
-        <p>
-            🩸 Blood Donor Finder © 2026
-        </p>
-
-        <p class="footer-text">
-            Connecting donors with people in need.
-        </p>
-
-    </footer>
-
-
-    <!-- JavaScript -->
-    <script src="/js/login.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
 
 </body>
 </html>
