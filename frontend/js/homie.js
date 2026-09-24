@@ -11,5 +11,5 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         splash.classList.add("hidden");
         app.classList.remove("hidden");
-    }, 800);
+    }, 8000);
 });

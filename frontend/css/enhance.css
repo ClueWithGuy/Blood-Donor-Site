@@ -42,6 +42,7 @@ html[data-theme="dark"]{
   --ivory: #241417;
   --white: #17090C;
   --crimson-soft: #3A171D;
+  --crimson-dark: #F5B8C2;
 }
 html[data-theme="dark"] body{ background: #120709; }
 html[data-theme="dark"] .site-nav{ background: rgba(18,7,9,0.65); border-bottom-color: rgba(255,255,255,0.08); }
@@ -56,8 +57,8 @@ html[data-theme="dark"] .donor-card,
 html[data-theme="dark"] .bank-card,
 html[data-theme="dark"] .event-card,
 html[data-theme="dark"] .leaderboard-row,
-html[data-theme="dark"] .request-card,
-html[data-theme="dark"] .modal-root > *,
+html[data-theme="dark"] .request-card{ background: #1c0f12; border-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .modal-root > *{ background: #1c0f12 !important; border-color: rgba(255,255,255,0.08); }
 html[data-theme="dark"] .auth-shell .modal-card{ background: #1c0f12; border-color: rgba(255,255,255,0.08); }
 html[data-theme="dark"] .modal-scrim{ background: rgba(0,0,0,0.65); }
 html[data-theme="dark"] .toast{ background:#1c0f12; color:#fff; border-color: rgba(255,255,255,0.1); }
@@ -92,41 +93,73 @@ html[data-theme="dark"] .notif-panel{
 /* ==========================================================================
    LIQUID GLASS THEME TOGGLE
    ========================================================================== */
-.theme-toggle{
+  .theme-toggle{
   position: relative;
-  width: 52px; height: 30px;
+  width: 90px; height: 40px;
   border-radius: 999px;
-  border: 1px solid var(--glass-border);
-  background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.15));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: none;
+  background: #e3e3e6;
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -2px 4px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.08);
   transition: background .4s var(--ease);
 }
 html[data-theme="dark"] .theme-toggle{
-  background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), inset 0 -2px 4px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.3);
+  background: #3a3a3d;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3);
 }
+
+/* static moon icon, always sitting on the right side of the track */
+.theme-toggle::before{
+  content: "";
+  position: absolute;
+  top: 50%; right: 11px;
+  width: 16px; height: 16px;
+  transform: translateY(-50%);
+  background: #9a9a9e;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/></svg>") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/></svg>") center/contain no-repeat;
+  transition: background .3s var(--ease);
+  z-index: 1;
+}
+html[data-theme="dark"] .theme-toggle::before{ background: #fff; }
+
+/* static sun icon, always sitting on the left side of the track */
+.theme-toggle::after{
+  content: "";
+  position: absolute;
+  top: 50%; left: 11px;
+  width: 16px; height: 16px;
+  transform: translateY(-50%);
+  background: #9a9a9e;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'><circle cx='12' cy='12' r='5'/><path d='M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42'/></svg>") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'><circle cx='12' cy='12' r='5'/><path d='M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42'/></svg>") center/contain no-repeat;
+  transition: background .3s var(--ease);
+  z-index: 1;
+}
+html[data-theme="dark"] .theme-toggle::after{ background: #fff; }
+
 .theme-toggle-knob{
-  position:absolute; top:2px; left:2px;
-  width:24px; height:24px; border-radius:50%;
-  background: radial-gradient(circle at 32% 28%, #fff, #ffe9a8 45%, #f5c15a 100%);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25), 0 0 10px rgba(245,193,90,0.7);
-  transition: transform .5s cubic-bezier(.34,1.56,.64,1), background .4s var(--ease);
+  position:absolute; top:4px; left:4px;
+  width:32px; height:32px; border-radius:50%;
+  background: radial-gradient(circle at 32% 28%, #ffd98a, #f5a623 60%, #e8890c 100%);
+  box-shadow: 0 2px 8px rgba(232,137,12,0.5);
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1), background .4s var(--ease), box-shadow .4s var(--ease);
   display:flex; align-items:center; justify-content:center;
+  z-index: 2;
 }
-.theme-toggle-knob svg{ width:13px; height:13px; color:#8a5a00; transition: opacity .3s var(--ease), transform .4s var(--ease); }
+.theme-toggle-knob svg{ width:14px; height:14px; color:#fff; transition: opacity .3s var(--ease), transform .4s var(--ease); }
+
 html[data-theme="dark"] .theme-toggle-knob{
-  transform: translateX(22px);
-  background: radial-gradient(circle at 32% 28%, #6f6f8a, #2b2b45 55%, #12121f 100%);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 10px rgba(120,120,220,0.45);
+  transform: translateX(50px);
+  background: radial-gradient(circle at 32% 28%, #8a8a92, #5a5a60 60%, #3f3f45 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
-html[data-theme="dark"] .theme-toggle-knob svg{ color:#cfd0ff; transform: rotate(-30deg); }
-.theme-toggle:active .theme-toggle-knob{ width:28px; } /* liquid squish on press */
-html[data-theme="dark"] .theme-toggle:active .theme-toggle-knob{ transform: translateX(18px); width:28px; }
+html[data-theme="dark"] .theme-toggle-knob svg{ color:#fff; transform: rotate(-30deg); }
+
+.theme-toggle:active .theme-toggle-knob{ width:36px; }
+html[data-theme="dark"] .theme-toggle:active .theme-toggle-knob{ transform: translateX(46px); width:36px; }
 
 /* ==========================================================================
    ANIMATED SEARCH BAR
@@ -175,9 +208,8 @@ html[data-theme="dark"] .theme-toggle:active .theme-toggle-knob{ transform: tran
 .btn-continue .btn-continue-label,
 .btn-continue .btn-continue-check{ transition: opacity .25s var(--ease), transform .35s cubic-bezier(.34,1.56,.64,1); }
 .btn-continue .btn-continue-check{ position:absolute; opacity:0; transform: scale(.4) rotate(-20deg); }
-.btn-continue.is-loading{ border-radius: 999px; pointer-events:none; }
+.btn-continue.is-loading{ border-radius: 999px; pointer-events:none; width: 44px !important; padding:0 !important; }
 .btn-continue.is-loading .btn-continue-label{ opacity:0; transform: scale(.7); }
-.btn-continue.is-loading{ width: 44px !important; padding:0 !important; }
 .btn-continue.is-success{ background: var(--success) !important; }
 .btn-continue.is-success .btn-continue-check{ opacity:1; transform: scale(1) rotate(0deg); }
 .btn-continue.is-success .btn-continue-label{ opacity:0; }
@@ -231,4 +263,41 @@ html[data-theme="dark"] .liquid-tabbar{ background: rgba(28,15,18,0.65); border-
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
   .theme-toggle-knob, .liquid-tabbar-indicator, .btn-continue *{ transition:none !important; animation:none !important; }
+}
+
+/* ==========================================================================
+   MODAL FORM LABELS (any form inside a .modal-card — profile, requests, etc.)
+   ========================================================================== */
+.modal-card form label{
+  display: block;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.modal-card form label input,
+.modal-card form label select,
+.modal-card form label textarea{
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 400;
+  background: #fff;
+  color: #241417;
+}
+.modal-card form label input:focus,
+.modal-card form label select:focus,
+.modal-card form label textarea:focus{
+  border-color: var(--crimson);
+}
+.modal-card form label input:disabled{
+  background: #e9e3e4;
+  color: #6E5B5E;
+}
+.modal-card form button[type="submit"]{
+  margin-top: 8px;
 }

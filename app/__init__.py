@@ -63,6 +63,12 @@ def create_app():
   def team_page():
     return send_from_directory(frontend_folder, "team.html")
 
+  @app.route("/images/<path:filename>")
+  def image_files(filename):
+    return send_from_directory(
+      os.path.join(frontend_folder, "images"),
+      filename
+    )
   
   return app
 
