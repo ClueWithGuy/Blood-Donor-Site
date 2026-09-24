@@ -15,6 +15,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    // ----- ACCEPT BUTTON: event delegation on the list -----
+    requestList.addEventListener(
+        "click",
+        acceptRequest
+    );
+
     try {
         const requests = await API.getRequests();
 
@@ -119,12 +125,82 @@ function renderRequests(requests) {
                             )}
                         </span>
 
+                        <button
+                            class="accept-btn"
+                            type="button"
+                            data-request-id="${escapeHtml(
+                                bloodRequest.id
+                            )}"
+                        >
+                            Accept
+                        </button>
+
                     </div>
 
                 </article>
             `;
         }
     ).join("");
+}
+
+
+/* =====================================================
+   ACCEPT BLOOD REQUEST
+   Delegated handler — works even after list re-render
+   ===================================================== */
+
+async function acceptRequest(event) {
+
+    const acceptBtn = event.target.closest(
+        ".accept-btn"
+    );
+
+    if (!acceptBtn) {
+        return;
+    }
+
+    const requestId = acceptBtn.dataset.requestId;
+
+    if (!requestId) {
+        return;
+    }
+
+    acceptBtn.disabled = true;
+    acceptBtn.textContent = "Accepting...";
+
+    try {
+        // If you have an API helper, swap this fetch for:
+        // await API.acceptRequest(requestId);
+        const response = await fetch(
+            `/api/requests/${requestId}/accept`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "Failed to accept request"
+            );
+        }
+
+        acceptBtn.textContent = "Accepted ✓";
+        acceptBtn.style.background = "#2e9e5b";
+
+    } catch (error) {
+        console.error(
+            "Accept error:",
+            error
+        );
+
+        acceptBtn.disabled = false;
+        acceptBtn.textContent = "Try again";
+
+        alert(error.message);
+    }
 }
 
 
