@@ -3,6 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#register-form");
     const message = document.querySelector("#form-message");
     const button = document.querySelector("#register-button");
+    const clearButton = document.querySelector("#clear-form");
+
+    const passwordInput = document.querySelector("#password");
+    const toggleButton = document.querySelector("#toggle-password");
+    const iconEye = toggleButton
+        ? toggleButton.querySelector(".icon-eye")
+        : null;
+    const iconEyeOff = toggleButton
+        ? toggleButton.querySelector(".icon-eye-off")
+        : null;
 
 
     if (!form) {
@@ -14,6 +24,65 @@ document.addEventListener("DOMContentLoaded", () => {
     function showMessage(text, type) {
         message.textContent = text;
         message.className = `form-message ${type}`;
+    }
+
+
+    /*
+     * Show/Hide password button — same pattern as login.js.
+     * Purely a display toggle, doesn't touch what gets submitted.
+     */
+    if (toggleButton && passwordInput) {
+
+        toggleButton.addEventListener("click", () => {
+
+            const isHidden = passwordInput.type === "password";
+
+            passwordInput.type = isHidden ? "text" : "password";
+
+            toggleButton.setAttribute(
+                "aria-pressed",
+                isHidden ? "true" : "false"
+            );
+
+            toggleButton.setAttribute(
+                "aria-label",
+                isHidden ? "Hide password" : "Show password"
+            );
+
+            if (iconEye && iconEyeOff) {
+                iconEye.hidden = isHidden;
+                iconEyeOff.hidden = !isHidden;
+            }
+
+        });
+    }
+
+
+    /*
+     * Clear Form button — resets every field, the message box, and the
+     * password visibility state back to hidden.
+     */
+    if (clearButton) {
+
+        clearButton.addEventListener("click", () => {
+
+            form.reset();
+            showMessage("", "");
+
+            if (passwordInput && passwordInput.type === "text") {
+                passwordInput.type = "password";
+                if (toggleButton) {
+                    toggleButton.setAttribute("aria-pressed", "false");
+                    toggleButton.setAttribute("aria-label", "Show password");
+                }
+                if (iconEye && iconEyeOff) {
+                    iconEye.hidden = false;
+                    iconEyeOff.hidden = true;
+                }
+            }
+
+            document.querySelector("#school-id").focus();
+        });
     }
 
 
@@ -42,25 +111,71 @@ document.addEventListener("DOMContentLoaded", () => {
             .value
             .trim();
 
+        const whatsapp = document
+            .querySelector("#whatsapp")
+            .value
+            .trim();
+
         const bloodGroup = document
             .querySelector("#blood-group")
             .value;
+
+        const gender = document
+            .querySelector("#gender")
+            .value;
+
+        const dateOfBirth = document
+            .querySelector("#date-of-birth")
+            .value;
+
+        const department = document
+            .querySelector("#department")
+            .value;
+
+        const batch = document
+            .querySelector("#batch")
+            .value
+            .trim();
+
+        const presentAddress = document
+            .querySelector("#present-address")
+            .value
+            .trim();
 
         const password = document
             .querySelector("#password")
             .value;
 
 
+        // WhatsApp is optional — every other field here is required.
         if (
             !schoolId ||
             !name ||
             !email ||
             !cellphone ||
             !bloodGroup ||
+            !gender ||
+            !dateOfBirth ||
+            !department ||
+            !batch ||
+            !presentAddress ||
             !password
         ) {
             showMessage(
-                "Please fill in all fields.",
+                "Please fill in all required fields.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // Stronger password check: at least 8 characters, one letter, one number.
+        const strongPassword = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+
+        if (!strongPassword.test(password)) {
+            showMessage(
+                "Password must be at least 8 characters and include a letter and a number.",
                 "error"
             );
 
@@ -82,7 +197,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 email: email,
                 password: password,
                 cellphone: cellphone,
-                blood_group: bloodGroup
+                blood_group: bloodGroup,
+
+                // Newer fields — confirm these key names match the backend's
+                // expected fields before relying on them being saved.
+                whatsapp: whatsapp || null,
+                gender: gender,
+                date_of_birth: dateOfBirth,
+                department: department,
+                batch: batch,
+                present_address: presentAddress
             });
 
 
@@ -103,7 +227,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
 
             showMessage(
-                error.message || "Registration failed.",
+                error.message ||
+                    "We couldn't create your account. Please check your details and try again.",
                 "error"
             );
 

@@ -389,16 +389,16 @@ function openRequestForm() {
 
             <form id="request-form">
 
-                <label>
+                 <label>
                     Patient name
 
                     <input
                         type="text"
+                        placeholder="Patient Name"
                         id="request-patient"
                         required
                     >
                 </label>
-
 
                 <label>
                     Blood group
@@ -422,28 +422,29 @@ function openRequestForm() {
                     </select>
                 </label>
 
-
                 <label>
                     Hospital
 
                     <input
                         type="text"
+                        placeholder="Hospital Name"
                         id="request-hospital"
                         required
                     >
                 </label>
 
-
                 <label>
                     Contact
 
                     <input
-                        type="text"
+                        type="tel"
+                        placeholder="01XXXXXXXXX"
                         id="request-contact"
+                         pattern="01[0-9]{9}"
+                         maxlength="11"
                         required
                     >
                 </label>
-
 
                 <label>
                     Urgency
