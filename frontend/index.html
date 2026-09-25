@@ -24,54 +24,48 @@
 
 <body>
 
-<!-- =========================================================
-     SPLASH
-     ========================================================= -->
-
+<!-- ============ SPLASH SCREEN ============ -->
 <div id="splash-screen" class="splash-screen">
 
-    <div class="splash-content">
+  <!-- background cells (reuses .cell from the hero) -->
+  <div class="splash-bg" aria-hidden="true">
+    <span class="cell" style="--s:60px;  --x:10%; --y:20%; --dx:30px;  --dy:40px;  --r:90deg;  --t:8s;  --d:0s;  --o:.25"></span>
+    <span class="cell" style="--s:90px;  --x:80%; --y:15%; --dx:-40px; --dy:30px;  --r:-80deg; --t:10s; --d:-3s; --o:.22"></span>
+    <span class="cell" style="--s:44px;  --x:20%; --y:75%; --dx:40px;  --dy:-30px; --r:120deg; --t:9s;  --d:-2s; --o:.28"></span>
+    <span class="cell" style="--s:70px;  --x:75%; --y:70%; --dx:-30px; --dy:-40px; --r:70deg;  --t:11s; --d:-5s; --o:.22"></span>
+    <span class="cell" style="--s:36px;  --x:50%; --y:88%; --dx:20px;  --dy:-30px; --r:-100deg;--t:8s;  --d:-1s; --o:.28"></span>
+  </div>
 
-        <svg
-            class="splash-mark"
-            viewBox="0 0 48 56"
-            fill="none"
-            aria-hidden="true"
-        >
-            <path
-                d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"
-                stroke="currentColor"
-                stroke-width="3"
-                stroke-linejoin="round"
-            />
+  <div class="splash-content">
 
-            <path
-                d="M24 18V37"
-                stroke="currentColor"
-                stroke-width="3"
-                stroke-linecap="round"
-            />
+    <div class="splash-mark-wrap">
+      <svg class="splash-mark" viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <clipPath id="splashDropClip">
+            <path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"/>
+          </clipPath>
+        </defs>
 
-            <path
-                d="M15 28H33"
-                stroke="currentColor"
-                stroke-width="3"
-                stroke-linecap="round"
-            />
-        </svg>
+        <!-- blood filling the drop -->
+        <g clip-path="url(#splashDropClip)">
+          <g class="splash-level">
+            <path class="splash-wave" d="M-48 6 Q-36 0 -24 6 T0 6 T24 6 T48 6 T72 6 V70 H-48 Z"/>
+          </g>
+        </g>
 
-        <p class="splash-word">
-            Drop For Life
-        </p>
-
-        <div class="splash-bar">
-            <span></span>
-        </div>
-
+        <!-- drop outline + cross -->
+        <path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M24 18V37" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <path d="M15 28H33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
     </div>
 
-</div>
+    <p class="splash-word">Drop For Life</p>
 
+
+    <div class="splash-bar"><span></span></div>
+  </div>
+</div>
 
 <!-- =========================================================
      APPLICATION
@@ -139,12 +133,6 @@
                     Requests
                 </a>
 
-                <a
-                    class="nav-link"
-                    href="/team"
-                >
-                    Team
-                </a>
 
             </nav>
 
@@ -264,12 +252,22 @@
              ================================================= -->
 
         <section class="hero">
-
+            <div class="hero-bg" aria-hidden="true">
+    <span class="cell" style="--s:70px;  --x:8%;  --y:15%; --dx:60px;  --dy:40px;  --r:120deg; --t:32s; --d:0s;   --o:.45"></span>
+    <span class="cell" style="--s:44px;  --x:22%; --y:70%; --dx:-40px; --dy:-50px; --r:-90deg; --t:26s; --d:-8s;  --o:.35"></span>
+    <span class="cell" style="--s:96px;  --x:40%; --y:30%; --dx:50px;  --dy:-30px; --r:80deg;  --t:40s; --d:-15s; --o:.30"></span>
+    <span class="cell" style="--s:56px;  --x:55%; --y:78%; --dx:-60px; --dy:-40px; --r:150deg; --t:30s; --d:-5s;  --o:.45"></span>
+    <span class="cell" style="--s:84px;  --x:68%; --y:12%; --dx:-50px; --dy:60px;  --r:-120deg;--t:36s; --d:-12s; --o:.40"></span>
+    <span class="cell" style="--s:40px;  --x:78%; --y:55%; --dx:40px;  --dy:-60px; --r:100deg; --t:24s; --d:-3s;  --o:.50"></span>
+    <span class="cell" style="--s:110px; --x:88%; --y:75%; --dx:-70px; --dy:-30px; --r:-70deg; --t:44s; --d:-20s; --o:.30"></span>
+    <span class="cell" style="--s:50px;  --x:92%; --y:25%; --dx:-30px; --dy:50px;  --r:90deg;  --t:28s; --d:-9s;  --o:.40"></span>
+</div>
+            
             <div class="hero-scrim"></div>
 
             <div class="hero-content">
 
-                <p class="hero-kicker">
+                <p class="">
                     A campus-run blood donation network
                 </p>
 

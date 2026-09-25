@@ -45,6 +45,7 @@
 
 .requests-header h2 {
     margin-bottom: 8px;
+    color: var(--ink);
 }
 
 .requests-list {
@@ -54,9 +55,10 @@
 
 .request-item {
     padding: 22px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--line);
     border-radius: 16px;
-    background: white;
+    background: var(--white);
+    color: var(--ink);
 }
 
 .request-item-top {
@@ -77,6 +79,9 @@
 
     font-size: 20px;
     font-weight: 700;
+
+    background: var(--crimson-soft);
+    color: var(--crimson-dark);
 }
 
 .request-item-info {
@@ -87,11 +92,12 @@
     display: block;
     font-size: 18px;
     margin-bottom: 4px;
+    color: var(--ink);
 }
 
 .request-item-info span {
     display: block;
-    color: #777;
+    color: var(--slate);
 }
 
 .request-item-meta {
@@ -100,21 +106,23 @@
     gap: 14px;
     margin-top: 18px;
     padding-top: 16px;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    border-top: 1px solid var(--line);
 }
 
 .request-item-urgency {
     font-weight: 600;
     text-transform: capitalize;
+    color: var(--crimson);
 }
 
 .request-item-contact {
-    color: #666;
+    color: var(--slate);
 }
 
 .request-empty {
     padding: 40px;
     text-align: center;
+    color: var(--slate);
 }
 
 @media (max-width: 700px) {
@@ -145,82 +153,46 @@
 
 <div id="app" class="app">
 
-    <header class="site-nav" id="site-nav">
+  <!-- NAV -->
+  <header class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <svg viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        </svg>
+        <span>Drop For Life</span>
+      </a>
 
-        <div class="nav-inner">
+      <nav class="nav-links" id="nav-links">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/dashboard">Dashboard</a>
+        <a class="nav-link" href="/find_donor">Find Donors</a>
+        <a class="nav-link is-active" href="/requests">Requests</a>
+      </nav>
 
-            <a href="/" class="nav-brand">
+      <div class="nav-actions">
 
-                <svg
-                    viewBox="0 0 48 56"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                >
-                    <path
-                        d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"
-                        stroke="currentColor"
-                        stroke-width="4"
-                        stroke-linejoin="round"
-                    />
-                </svg>
+        <button class="profile-chip hidden" id="profile-chip" type="button" aria-label="Open profile">
+          <span class="avatar-dot" id="profile-initial">S</span>
+        </button>
+      </div>
 
-                <span>Drop For Life</span>
+      <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
 
-            </a>
+  <!-- MOBILE NAV DRAWER -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/dashboard">Dashboard</a>
+    <a class="nav-link" href="/find_donor">Find Donors</a>
+    <a class="nav-link is-active" href="/requests">Requests</a>
+    <a class="nav-link" href="/team">Team</a>
+    <hr>
 
-
-            <nav class="nav-links">
-
-                <a class="nav-link" href="/">
-                    Home
-                </a>
-
-                <a class="nav-link" href="/dashboard">
-                    Dashboard
-                </a>
-
-                <a class="nav-link" href="/find_donor">
-                    Find Donors
-                </a>
-
-                <a class="nav-link" href="/team">
-                    Team
-                </a>
-
-                <a class="nav-link is-active" href="/requests">
-                    Requests
-                </a>
-
-            </nav>
-
-
-            <div class="nav-actions">
-
-                <span class="auth-links">
-
-                    <a
-                        class="btn-outline btn-sm"
-                        href="/login"
-                    >
-                        Sign in
-                    </a>
-
-                    <a
-                        class="btn-primary btn-sm"
-                        href="/register"
-                    >
-                        Join as donor
-                    </a>
-
-                </span>
-
-            </div>
-
-        </div>
-
-    </header>
-
+  </div>
 
     <main>
 
@@ -242,12 +214,14 @@
 
                     </div>
 
-                    <a
-                        class="btn-outline btn-sm"
-                        href="/dashboard"
-                    >
-                        Back to dashboard
-                    </a>
+                                             <button
+                                class="btn-primary btn-sm"
+                                id="dash-new-request"
+                                type="button"
+                            >
+                                New request
+                            </button>
+
 
                 </div>
 
@@ -269,12 +243,28 @@
 
     </main>
 
-
+    <!-- FOOTER — same as dashboard -->
     <footer class="site-footer">
 
         <div class="footer-inner">
 
             <div class="footer-brand">
+
+                <svg
+                    viewBox="0 0 48 56"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                  <path
+    d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"
+    stroke="currentColor"
+    stroke-width="4"
+    stroke-linejoin="round"
+/>
+
+                </svg>
 
                 <span>
                     Drop For Life
@@ -284,6 +274,83 @@
                     A student-built blood donation network.
                     University web project.
                 </p>
+
+            </div>
+
+            <div class="footer-cols">
+
+                <div>
+
+                    <h5>
+                        Platform
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/find_donor"
+                    >
+                        Find donors
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/requests"
+                    >
+                        Blood requests
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/dashboard"
+                    >
+                        Dashboard
+                    </a>
+
+                </div>
+
+                <div>
+
+                    <h5>
+                        Account
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/login"
+                    >
+                        Sign in
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/register"
+                    >
+                        Register as donor
+                    </a>
+
+                </div>
+
+                <div>
+
+                    <h5>
+                        Project
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/team"
+                    >
+                        Team
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/"
+                    >
+                        About Drop For Life
+                    </a>
+
+                </div>
 
             </div>
 
@@ -302,9 +369,29 @@
 
 </div>
 
+<!-- MODALS -->
+<div
+    class="modal-scrim"
+    id="modal-scrim"
+></div>
+
+<div
+    class="modal-root"
+    id="modal-root"
+></div>
+
+<!-- TOASTS -->
+<div
+    class="toast-stack"
+    id="toast-stack"
+    aria-live="polite"
+></div>
 
 <script src="js/api.js"></script>
 <script src="js/requests.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/enhance.js"></script>
+<script src="js/motion.js"></script>
 
 </body>
 </html>

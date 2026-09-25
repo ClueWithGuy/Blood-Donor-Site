@@ -4,6 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = document.querySelector("#form-message");
     const button = document.querySelector("#login-button");
 
+    const passwordInput = document.querySelector("#password");
+    const toggleButton = document.querySelector("#toggle-password");
+    const iconEye = toggleButton
+        ? toggleButton.querySelector(".icon-eye")
+        : null;
+    const iconEyeOff = toggleButton
+        ? toggleButton.querySelector(".icon-eye-off")
+        : null;
+
 
     if (!form) {
         console.error("Login form not found.");
@@ -14,6 +23,38 @@ document.addEventListener("DOMContentLoaded", () => {
     function showMessage(text, type) {
         message.textContent = text;
         message.className = `form-message ${type}`;
+    }
+
+
+    /*
+     * Show/Hide password button.
+     * Purely a display toggle on the existing #password input —
+     * doesn't touch what gets read/sent on submit.
+     */
+    if (toggleButton && passwordInput) {
+
+        toggleButton.addEventListener("click", () => {
+
+            const isHidden = passwordInput.type === "password";
+
+            passwordInput.type = isHidden ? "text" : "password";
+
+            toggleButton.setAttribute(
+                "aria-pressed",
+                isHidden ? "true" : "false"
+            );
+
+            toggleButton.setAttribute(
+                "aria-label",
+                isHidden ? "Hide password" : "Show password"
+            );
+
+            if (iconEye && iconEyeOff) {
+                iconEye.hidden = isHidden;
+                iconEyeOff.hidden = !isHidden;
+            }
+
+        });
     }
 
 
@@ -34,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!schoolId || !password) {
             showMessage(
-                "Please enter your school ID and password.",
+                "Please enter your student ID and password.",
                 "error"
             );
 
@@ -57,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             showMessage(
-                result.message || "Login successful.",
+                result.message || "Login successful. Redirecting…",
                 "success"
             );
 
@@ -90,7 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
 
             showMessage(
-                error.message || "Login failed.",
+                error.message ||
+                    "We couldn't sign you in. Check your ID and password and try again.",
                 "error"
             );
 

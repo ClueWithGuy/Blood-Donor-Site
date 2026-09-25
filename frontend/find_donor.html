@@ -15,13 +15,43 @@
 
 <!-- ============ SPLASH SCREEN ============ -->
 <div id="splash-screen" class="splash-screen">
+
+  <!-- background cells (reuses .cell from the hero) -->
+  <div class="splash-bg" aria-hidden="true">
+    <span class="cell" style="--s:60px;  --x:10%; --y:20%; --dx:30px;  --dy:40px;  --r:90deg;  --t:8s;  --d:0s;  --o:.25"></span>
+    <span class="cell" style="--s:90px;  --x:80%; --y:15%; --dx:-40px; --dy:30px;  --r:-80deg; --t:10s; --d:-3s; --o:.22"></span>
+    <span class="cell" style="--s:44px;  --x:20%; --y:75%; --dx:40px;  --dy:-30px; --r:120deg; --t:9s;  --d:-2s; --o:.28"></span>
+    <span class="cell" style="--s:70px;  --x:75%; --y:70%; --dx:-30px; --dy:-40px; --r:70deg;  --t:11s; --d:-5s; --o:.22"></span>
+    <span class="cell" style="--s:36px;  --x:50%; --y:88%; --dx:20px;  --dy:-30px; --r:-100deg;--t:8s;  --d:-1s; --o:.28"></span>
+  </div>
+
   <div class="splash-content">
-    <svg class="splash-mark" viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M24 18V37" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-      <path d="M15 28H33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-    </svg>
+
+    <div class="splash-mark-wrap">
+      <svg class="splash-mark" viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <clipPath id="splashDropClip">
+            <path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"/>
+          </clipPath>
+        </defs>
+
+        <!-- blood filling the drop -->
+        <g clip-path="url(#splashDropClip)">
+          <g class="splash-level">
+            <path class="splash-wave" d="M-48 6 Q-36 0 -24 6 T0 6 T24 6 T48 6 T72 6 V70 H-48 Z"/>
+          </g>
+        </g>
+
+        <!-- drop outline + cross -->
+        <path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M24 18V37" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <path d="M15 28H33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+
     <p class="splash-word">Drop For Life</p>
+
+
     <div class="splash-bar"><span></span></div>
   </div>
 </div>
@@ -64,7 +94,7 @@
   <!-- NAV -->
   <header class="site-nav" id="site-nav">
     <div class="nav-inner">
-      <a href="#home" class="nav-brand" data-nav="home">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
         </svg>
@@ -72,33 +102,20 @@
       </a>
 
       <nav class="nav-links" id="nav-links">
-        <a class="nav-link " data-nav="home" href="/">Home</a>
-        <a class="nav-link " href="/dashboard">Dashboard</a>
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/dashboard">Dashboard</a>
         <a class="nav-link is-active" href="/find_donor">Find Donors</a>
-        <a class="nav-link " href="/team">Team</a>
-        <a class="nav-link" data-nav="requests" href="/#requests">Requests</a>
-        <a class="nav-link" data-nav="banks" href="/#banks">Blood Banks</a>
-        <a class="nav-link" data-nav="events" href="/#events">Events</a>
+        <a class="nav-link" href="/requests">Requests</a>
       </nav>
 
       <div class="nav-actions">
-        <button class="icon-btn" id="notif-btn" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-          <span class="icon-dot" id="notif-dot" hidden></span>
-        </button>
-        <button class="icon-btn" id="inbox-btn" aria-label="Messages">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        </button>
-        <span class="auth-links" id="auth-links">
-          <a class="btn-outline btn-sm" href="/login">Sign in</a>
-          <a class="btn-primary btn-sm" href="/register">Join as donor</a>
-        </span>
-        <button class="profile-chip hidden" id="profile-chip">
+
+        <button class="profile-chip hidden" id="profile-chip" type="button" aria-label="Open profile">
           <span class="avatar-dot" id="profile-initial">S</span>
         </button>
       </div>
 
-      <button class="nav-burger" id="nav-burger" aria-label="Menu">
+      <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -106,18 +123,13 @@
 
   <!-- MOBILE NAV DRAWER -->
   <div class="mobile-drawer" id="mobile-drawer">
-    <a class="nav-link " data-nav="home" href="/">Home</a>
-    <a class="nav-link " href="/dashboard">Dashboard</a>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/dashboard">Dashboard</a>
     <a class="nav-link is-active" href="/find_donor">Find Donors</a>
-        <a class="nav-link " href="/team">Team</a>
-    <a class="nav-link" data-nav="requests" href="/#requests">Requests</a>
-    <a class="nav-link" data-nav="banks" href="/#banks">Blood Banks</a>
-    <a class="nav-link" data-nav="events" href="/#events">Events</a>
+    <a class="nav-link" href="/requests">Requests</a>
+    <a class="nav-link" href="/team">Team</a>
     <hr>
-    <span class="auth-links" id="auth-links-m">
-      <a class="btn-outline" href="/login">Sign in</a>
-      <a class="btn-primary" href="/register">Join as donor</a>
-    </span>
+
   </div>
 
   <main id="main-views">
@@ -144,10 +156,18 @@
             <option>B+</option><option>B-</option>
             <option>AB+</option><option>AB-</option>
           </select>
-          <select id="filter-location" class="filter-select">
-            <option value="">Nearest first</option>
-            <option value="available">Available only</option>
+          <select id="filter-department" class="filter-select">
+            <option value="">Department</option>
+            <option>CSE</option>
+            <option>BBA</option>
+            <option>Economy</option>
+            <option>EEE</option>
+            <option>English</option>
+            <option>Fashion Designing</option>
+            <option>Architecture</option>
           </select>
+
+          
           <button class="btn-outline btn-sm" id="filter-reset">Reset</button>
         </div>
 
@@ -157,65 +177,139 @@
     </section>
   </main>
 
-  <!-- ============ INBOX / CHAT PANEL ============ -->
-  <div class="chat-panel" id="chat-panel">
-    <div class="chat-panel-head">
-      <h3>Messages</h3>
-      <button class="icon-btn" id="chat-close" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="chat-body">
-      <div class="chat-thread-list" id="chat-thread-list"></div>
-      <div class="chat-conversation" id="chat-conversation">
-        <div class="chat-empty">Select a conversation to start messaging.</div>
-      </div>
-    </div>
-  </div>
-  <div class="scrim" id="chat-scrim"></div>
-
-  <!-- ============ NOTIFICATIONS PANEL ============ -->
-  <div class="notif-panel" id="notif-panel">
-    <div class="notif-panel-head">
-      <h3>Notifications</h3>
-      <button class="btn-text" id="notif-clear">Mark all read</button>
-    </div>
-    <div class="notif-list" id="notif-list"></div>
-  </div>
-
   <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <svg viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg>
-        <span>Drop For Life</span>
-        <p class="muted">A student-built blood donation network. University web project.</p>
-      </div>
-      <div class="footer-cols">
-        <div>
-          <h5>Platform</h5>
-          <a class="link-btn" href="/find_donor">Find donors</a>
-          <a class="link-btn" data-nav="banks" href="/#banks">Blood banks</a>
-          <a class="link-btn" data-nav="events" href="/#events">Events</a>
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+
+            <div class="footer-brand">
+
+                <svg
+                    viewBox="0 0 48 56"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                  <path
+    d="M24 2C24 2 4 24.5 4 37.5C4 48.2696 12.9543 55 24 55C35.0457 55 44 48.2696 44 37.5C44 24.5 24 2 24 2Z"
+    stroke="currentColor"
+    stroke-width="4"
+    stroke-linejoin="round"
+/>
+
+                </svg>
+
+
+                <span>
+                    Drop For Life
+                </span>
+
+
+                <p class="muted">
+                    A student-built blood donation network.
+                    University web project.
+                </p>
+
+            </div>
+
+
+            <div class="footer-cols">
+
+
+                <div>
+
+                    <h5>
+                        Platform
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/find_donor"
+                    >
+                        Find donors
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/requests"
+                    >
+                        Blood requests
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/dashboard"
+                    >
+                        Dashboard
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h5>
+                        Account
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/login"
+                    >
+                        Sign in
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/register"
+                    >
+                        Register as donor
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h5>
+                        Project
+                    </h5>
+
+                    <a
+                        class="link-btn"
+                        href="/team"
+                    >
+                        Team
+                    </a>
+
+                    <a
+                        class="link-btn"
+                        href="/"
+                    >
+                        About Drop For Life
+                    </a>
+
+                </div>
+
+
+            </div>
+
         </div>
-        <div>
-          <h5>Account</h5>
-          <a class="link-btn" href="/login">Sign in</a>
-          <a class="link-btn" href="/register">Register as donor</a>
-          <button class="link-btn" data-nav-modal="settings">Settings</button>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 Drop For Life.
+                Built for a university web development course.
+            </span>
+
         </div>
-        <div>
-          <h5>Support</h5>
-          <button class="link-btn" data-nav-modal="help">Help center</button>
-          <button class="link-btn" data-nav-modal="privacy">Privacy policy</button>
-          <button class="link-btn" data-nav-modal="about-modal">About us</button>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Drop For Life. Built for a university web development course.</span>
-    </div>
-  </footer>
+
+    </footer>
+
 </div>
 
 <!-- ============ MODAL ROOT (auth, forms, etc.) ============ -->
@@ -225,8 +319,10 @@
 <!-- ============ TOASTS ============ -->
 <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 
-<script src="js/home.js"></script>
 <script src="js/api.js"></script>
+<script src="js/home.js"></script>
 <script src="js/donors.js"></script>
+<script src="js/enhance.js"></script>
+<script src="js/motion.js"></script>
 </body>
 </html>

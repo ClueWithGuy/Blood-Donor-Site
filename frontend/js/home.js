@@ -40,7 +40,7 @@ function showApplication() {
 
         app.classList.remove("hidden");
 
-    }, 800);
+    }, 1500);
 }
 
 

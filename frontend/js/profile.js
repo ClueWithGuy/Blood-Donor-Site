@@ -261,7 +261,59 @@ function bloodGroupOptions(selected) {
 
 
 function escapeHtml(value) {
-    const div = document.createElement("div");
-    div.textContent = value ?? "";
-    return div.innerHTML;
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+
+document.addEventListener("DOMContentLoaded", initAvailabilityToggle);
+
+async function initAvailabilityToggle() {
+    const toggle = document.querySelector("#availability-toggle");
+    const statusBlock = document.querySelector("#availability-status");
+    const sub = document.querySelector("#availability-sub");
+
+    if (!toggle) return;
+
+    const schoolId = localStorage.getItem("school_id");
+    if (!schoolId) return;
+
+    // Set initial state from the donor record
+    try {
+        const donor = await API.getDonor(schoolId);
+        renderAvailability(!!donor.available);
+    } catch (error) {
+        console.error(error);
+    }
+
+    toggle.addEventListener("click", async () => {
+        const goingOn = toggle.getAttribute("aria-checked") !== "true";
+
+        // Optimistic UI update
+        renderAvailability(goingOn);
+        toggle.disabled = true;
+
+        try {
+            await API.updateDonor(schoolId, { available: goingOn });
+        } catch (error) {
+            // Revert on failure
+            renderAvailability(!goingOn);
+            alert(error.message);
+        } finally {
+            toggle.disabled = false;
+        }
+    });
+
+    function renderAvailability(isOn) {
+        toggle.classList.toggle("is-on", isOn);
+        toggle.setAttribute("aria-checked", String(isOn));
+        statusBlock.hidden = !isOn;
+        sub.textContent = isOn
+            ? "You're visible to donor searches"
+            : "You're hidden from donor searches";
+    }
 }

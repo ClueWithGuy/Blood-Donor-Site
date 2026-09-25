@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const donorGrid = document.querySelector("#donor-grid");
     const searchInput = document.querySelector("#donor-search-input");
     const bloodFilter = document.querySelector("#filter-blood-group");
+    const departmentFilter = document.querySelector("#filter-department");
     const locationFilter = document.querySelector("#filter-location");
     const resetButton = document.querySelector("#filter-reset");
     const donorCount = document.querySelector("#donor-count");
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderDonors() {
         const search = searchInput?.value.trim().toLowerCase() || "";
         const bloodGroup = bloodFilter?.value || "";
+        const department = departmentFilter?.value || "";
         const location = locationFilter?.value.trim().toLowerCase() || "";
 
         const filtered = donors.filter((donor) => {
@@ -43,6 +45,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 donor.blood_group === bloodGroup;
 
             /*
+             * Backend field name assumed as "department".
+             * Update this line if the backend uses a different key
+             * (e.g. donor.dept, donor.faculty).
+             */
+            const matchesDepartment =
+                !department ||
+                donor.department === department;
+
+            /*
              * The current backend does NOT provide donor location.
              * Therefore this filter is intentionally not applied yet.
              */
@@ -51,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return (
                 matchesSearch &&
                 matchesBlood &&
+                matchesDepartment &&
                 matchesLocation
             );
         });
@@ -82,19 +94,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 </p>
 
                 <p>
-                    <strong>School ID:</strong>
+                    <strong>Student ID: </strong>
                     ${escapeHtml(donor.school_id)}
                 </p>
 
+                
+                <p>
+                <strong>Address:</strong>
+                ${escapeHtml(donor.address)}
+                </p>
+                <p>
+                <strong>Department:</strong>
+                ${escapeHtml(donor.department)}
+                </p>
+                <p>
+                <strong>Gender:</strong>
+                ${escapeHtml(donor.gender)}
+                </p>
+                
                 <p>
                     <strong>Cellphone:</strong>
                     ${escapeHtml(donor.cellphone)}
-                </p>
-
-                <p>
-                    <strong>Email:</strong>
-                    ${escapeHtml(donor.email)}
-                </p>
+                    </p>
             </article>
         `;
     }
@@ -107,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchInput?.addEventListener("input", renderDonors);
     bloodFilter?.addEventListener("change", renderDonors);
+    departmentFilter?.addEventListener("change", renderDonors);
     locationFilter?.addEventListener("input", renderDonors);
 
     resetButton?.addEventListener("click", () => {
@@ -116,6 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (bloodFilter) {
             bloodFilter.value = "";
+        }
+
+        if (departmentFilter) {
+            departmentFilter.value = "";
         }
 
         if (locationFilter) {
