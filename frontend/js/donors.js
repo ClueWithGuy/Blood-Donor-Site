@@ -34,6 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const location = locationFilter?.value.trim().toLowerCase() || "";
 
         const filtered = donors.filter((donor) => {
+
+	    if (!donor.is_active) {
+		return false;
+	    }
+
             const matchesSearch =
                 !search ||
                 donor.name.toLowerCase().includes(search) ||

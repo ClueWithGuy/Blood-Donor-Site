@@ -311,6 +311,7 @@ function renderRequests(requests) {
 
 
 function setupAvailability(donor) {
+
     const toggle = document.querySelector(
         "#availability-toggle"
     );
@@ -319,18 +320,38 @@ function setupAvailability(donor) {
         return;
     }
 
+    let isActive = donor.is_active;
 
-    toggle.checked = donor.is_active;
+    function updateToggleUI() {
+        toggle.classList.toggle(
+            "is-on",
+            isActive
+        );
 
+        toggle.setAttribute(
+            "aria-checked",
+            isActive ? "true" : "false"
+        );
+    }
 
-    toggle.onchange = async () => {
+    updateToggleUI();
+
+    toggle.onclick = async () => {
+
+        const newStatus = !isActive;
+
+        toggle.disabled = true;
 
         try {
 
             await API.updateAvailability(
                 donor.school_id,
-                toggle.checked
+                newStatus
             );
+
+            isActive = newStatus;
+
+            updateToggleUI();
 
         } catch (error) {
 
@@ -339,10 +360,11 @@ function setupAvailability(donor) {
                 error
             );
 
-            toggle.checked =
-                !toggle.checked;
-
             alert(error.message);
+
+        } finally {
+
+            toggle.disabled = false;
         }
     };
 }

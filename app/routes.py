@@ -150,7 +150,8 @@ def get_donors():
             "blood_group": donor.blood_group,
             "cellphone":donor.cellphone,
             "email": donor.email,
-            "address": donor.address
+            "address": donor.address,
+            "is_active": donor.is_active
         }
         for donor in donors
     ]), 200
@@ -544,7 +545,6 @@ def get_dashboard(school_id):
         "open_requests": [
             {
                 "id": blood_request.id,
-                "requester_school_id": blood_request.requester_school_id,
                 "patient_name": blood_request.patient_name,
                 "blood_group": blood_request.blood_group,
                 "hospital": blood_request.hospital,

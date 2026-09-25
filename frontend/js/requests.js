@@ -165,32 +165,45 @@ async function acceptRequest(event) {
         return;
     }
 
+    const schoolId =
+        localStorage.getItem("school_id");
+
+    if (!schoolId) {
+        window.location.href = "/login";
+        return;
+    }
+
     acceptBtn.disabled = true;
     acceptBtn.textContent = "Accepting...";
 
     try {
-        // If you have an API helper, swap this fetch for:
-        // await API.acceptRequest(requestId);
+
         const response = await fetch(
-            `/api/requests/${requestId}/accept`,
+            `/api/donors/${schoolId}/donations`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                body: JSON.stringify({
+                    request_id: Number(requestId)
+                })
             }
         );
 
+        const result = await response.json();
+
         if (!response.ok) {
             throw new Error(
-                "Failed to accept request"
+                result.error || "Failed to accept request"
             );
         }
 
         acceptBtn.textContent = "Accepted ✓";
-        acceptBtn.style.background = "#2e9e5b";
+        acceptBtn.disabled = true;
 
     } catch (error) {
+
         console.error(
             "Accept error:",
             error
