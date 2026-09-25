@@ -107,6 +107,7 @@
     margin-top: 18px;
     padding-top: 16px;
     border-top: 1px solid var(--line);
+    justify-content: space-between;   /* ← ADDED: pushes Accept button to right */
 }
 
 .request-item-urgency {
@@ -118,6 +119,36 @@
 .request-item-contact {
     color: var(--slate);
 }
+
+/* ----- ADDED: Accept button styles ----- */
+
+.accept-btn {
+    margin-left: auto;              /* extra safety for right alignment */
+    padding: 8px 22px;
+    background: var(--crimson);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.accept-btn:hover {
+    background: var(--crimson-dark);
+}
+
+.accept-btn:active {
+    transform: scale(0.96);
+}
+
+.accept-btn:disabled {
+    cursor: default;
+}
+
+/* ----- END added styles ----- */
 
 .request-empty {
     padding: 40px;
@@ -144,6 +175,15 @@
         flex-direction: column;
         align-items: flex-start;
     }
+
+    /* ----- ADDED: full-width Accept button on mobile ----- */
+
+    .accept-btn {
+        margin-left: 0;
+        align-self: stretch;
+    }
+
+    /* ----- END added styles ----- */
 }
 </style>
 
