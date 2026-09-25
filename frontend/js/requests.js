@@ -224,6 +224,25 @@ function openRequestForm() {
                 </label>
 
                 <label>
+                    Gender
+
+                    <select
+                        id="request-gender"
+                        required
+                    >
+                        <option value="">
+                           Select gender
+                        </option>
+
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </label>
+
+
+
+                <label>
                     Urgency
 
                     <select id="request-urgency">
@@ -315,6 +334,11 @@ async function submitRequest(event) {
             document.querySelector(
                 "#request-hospital"
             ).value.trim(),
+
+	gender:
+        document.querySelector(
+            "#request-gender"
+        ).value,
 
         contact:
             document.querySelector(

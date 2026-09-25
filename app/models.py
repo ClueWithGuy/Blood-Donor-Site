@@ -15,7 +15,7 @@ class Donor(db.Model):
     cellphone = db.Column( db.String(20), nullable=False)
     blood_group = db.Column( db.String(5), nullable=False)
     is_active = db.Column( db.Boolean, default=True, nullable=False)
-    address = db.Column( db.String(100), nullable=False)
+    address = db.Column( db.String(200), nullable=False)
 
 
 class Donation(db.Model):
@@ -28,7 +28,6 @@ class Donation(db.Model):
 
 class BloodRequest(db.Model):
     id = db.Column( db.Integer, primary_key=True)
-    requester_school_id = db.Column( db.String(50), nullable=False)
     patient_name = db.Column( db.String(100), nullable=False)
     blood_group = db.Column( db.String(5), nullable=False)
     hospital = db.Column( db.String(150), nullable=False)

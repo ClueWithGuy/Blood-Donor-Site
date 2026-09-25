@@ -52,6 +52,20 @@ def register():
             "error": "date_of_birth must be in YYYY-MM-DD format"
         }), 400
 
+    today = date.today()
+    age = today.year - date_of_birth.year
+
+    if (today.month, today.day) < (
+        date_of_birth.month,
+        date_of_birth.day
+    ):
+        age -= 1
+
+    if age < 18:
+        return jsonify({
+            "error": "You must be at least 18 years old to register"
+        }), 400
+
     donor = Donor(
         school_id = data["school_id"],
         name = data["name"],

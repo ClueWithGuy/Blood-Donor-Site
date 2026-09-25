@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 date_of_birth: dateOfBirth,
                 department: department,
                 batch: batch,
-                present_address: presentAddress
+                address: presentAddress
             });
 
 
