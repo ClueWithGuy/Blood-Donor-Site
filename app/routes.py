@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, render_template
 from .database import db
 from .models import Donor, Donation, BloodRequest, Message
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
 
 main = Blueprint("main", __name__)
 
@@ -19,10 +20,15 @@ def register():
     required_fields = [
         "school_id",
         "name",
+        "date_of_birth",
+        "gender",
+        "batch",
+        "department",
         "email",
         "password",
         "cellphone",
-        "blood_group"
+        "blood_group",
+        "address"
     ]
 
     for field in required_fields:
@@ -39,13 +45,25 @@ def register():
             "error": "School ID or email is already registered",
         }), 409
 
+    try:
+        date_of_birth = date.fromisoformat(data["date_of_birth"])
+    except ValueError:
+        return jsonify({
+            "error": "date_of_birth must be in YYYY-MM-DD format"
+        }), 400
+
     donor = Donor(
         school_id = data["school_id"],
         name = data["name"],
+        date_of_birth = date_of_birth,
+        gender = data["gender"],
+        batch = data["batch"],
+        department = data["department"],
         email = data["email"],
         password_hash = password_hash,
         cellphone = data["cellphone"],
-        blood_group = data["blood_group"]
+        blood_group = data["blood_group"],
+        address = data["address"]
     )
 
     db.session.add(donor)
@@ -89,28 +107,40 @@ def login():
 
 @main.route("/api/donors", methods=["GET"])
 def get_donors():
+    query = Donor.query
+
+    name = request.args.get("name")
+    department = request.args.get("department")
     blood_group = request.args.get("blood_group")
+    is_active = request.args.get("is_active")
 
+    if name:
+        query = query.filter(Donor.name == name)
+    if department:
+        query = query.filter(Donor.department == department)
     if blood_group:
-        donors = Donor.query.filter_by(
-            blood_group=blood_group,
-            is_active=True
-        ).all()
-    else:
-        donors = Donor.query.filter_by(is_active=True).all()
+        query = query.filter(Donor.blood_group == blood_group)
+    if is_active:
+        is_active = is_active.lower() == "true"
+        query = query.filter(Donor.is_active == is_active)
 
-    donor_list = []
+    donors = query.all()
 
-    for donor in donors:
-        donor_list.append({
-            "school_id": donor.school_id,
+    return jsonify([
+        {
+            "school_id": donor. school_id,
             "name": donor.name,
+            "gender": donor.gender,
+            "batch": donor.batch,
+            "department": donor.department,
+            "blood_group": donor.blood_group,
+            "cellphone":donor.cellphone,
             "email": donor.email,
-            "cellphone": donor.cellphone,
-            "blood_group": donor.blood_group
-        })
-
-    return jsonify(donor_list), 200
+            "address": donor.address
+        }
+        for donor in donors
+    ]), 200
+    
 
 @main.route("/api/donors/<school_id>", methods=["PUT"])
 def update_donor(school_id):
@@ -234,6 +264,7 @@ def create_donation(school_id):
 
     donation = Donation(
         donor_school_id=school_id,
+        request_id=data.get("request_id"),
         notes=data.get("notes")
     )
 
@@ -262,10 +293,10 @@ def get_requests():
     for blood_request in requests:
         request_list.append({
             "id": blood_request.id,
-            "requester_school_id": blood_request.requester_school_id,
             "patient_name": blood_request.patient_name,
             "blood_group": blood_request.blood_group,
             "hospital": blood_request.hospital,
+            "gender": blood_request.gender,
             "contact": blood_request.contact,
             "urgency": blood_request.urgency,
             "status": blood_request.status,
@@ -280,10 +311,10 @@ def create_request():
     data = request.get_json() or {}
 
     required_fields = [
-        "requester_school_id",
         "patient_name",
         "blood_group",
         "hospital",
+        "gender",
         "contact"
     ]
 
@@ -293,20 +324,11 @@ def create_request():
                 "error": f"{field} is required"
             }), 400
 
-    donor = Donor.query.filter_by(
-        school_id=data["requester_school_id"]
-    ).first()
-
-    if not donor:
-        return jsonify({
-            "error": "Requester not found"
-        }), 404
-
     blood_request = BloodRequest(
-        requester_school_id=data["requester_school_id"],
         patient_name=data["patient_name"],
         blood_group=data["blood_group"],
         hospital=data["hospital"],
+        gender=data["gender"],
         contact=data["contact"],
         urgency=data.get("urgency", "normal"),
         status="open"
@@ -318,10 +340,10 @@ def create_request():
     return jsonify({
         "message": "Blood request created successfully",
         "request": {
-            "id": blood_request.id,
             "patient_name": blood_request.patient_name,
             "blood_group": blood_request.blood_group,
             "hospital": blood_request.hospital,
+            "gender": blood_request.gender,
             "urgency": blood_request.urgency,
             "status": blood_request.status
         }
