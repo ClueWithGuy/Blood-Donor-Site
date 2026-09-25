@@ -132,7 +132,7 @@ function renderRequests(requests) {
                                 bloodRequest.id
                             )}"
                         >
-                            Accept
+                            Accept Request
                         </button>
 
                     </div>
