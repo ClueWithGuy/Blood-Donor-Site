@@ -89,41 +89,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function createDonorCard(donor) {
-        return `
-            <article class="donor-card">
-                <h3>${escapeHtml(donor.name)}</h3>
+    return `
+        <article class="donor-card">
+            <h3>${escapeHtml(donor.name)}</h3>
 
-                <p>
-                    <strong>Blood:</strong>
-                    ${escapeHtml(donor.blood_group)}
-                </p>
+            <p>
+                <strong>Blood:</strong>
+                ${escapeHtml(donor.blood_group)}
+            </p>
 
-                <p>
-                    <strong>Student ID: </strong>
-                    ${escapeHtml(donor.school_id)}
-                </p>
+            <p>
+                <strong>Student ID:</strong>
+                ${escapeHtml(donor.school_id)}
+            </p>
 
-                
-                <p>
+            <p>
                 <strong>Address:</strong>
                 ${escapeHtml(donor.address)}
-                </p>
-                <p>
+            </p>
+
+            <p>
                 <strong>Department:</strong>
                 ${escapeHtml(donor.department)}
-                </p>
-                <p>
+            </p>
+
+            <p>
                 <strong>Gender:</strong>
                 ${escapeHtml(donor.gender)}
-                </p>
-                
-                <p>
-                    <strong>Cellphone:</strong>
-                    ${escapeHtml(donor.cellphone)}
-                    </p>
-            </article>
-        `;
+            </p>
+
+            <p>
+                <strong>Cellphone:</strong>
+                ${escapeHtml(donor.cellphone)}
+            </p>
+
+            <button
+                type="button"
+                class="message-btn"
+                data-school-id="${escapeHtml(donor.school_id)}"
+                data-donor-name="${escapeHtml(donor.name)}"
+            >
+                Message
+            </button>
+        </article>
+      `;
     }
+
 
     function escapeHtml(value) {
         const div = document.createElement("div");
@@ -156,5 +167,49 @@ document.addEventListener("DOMContentLoaded", () => {
         renderDonors();
     });
 
+    donorGrid.addEventListener("click", (event) => {
+        const messageButton =
+            event.target.closest(".message-btn");
+
+        if (!messageButton) {
+            return;
+        }
+
+        const receiverSchoolId =
+            messageButton.dataset.schoolId;
+
+        const donorName =
+            messageButton.dataset.donorName;
+
+        const senderSchoolId =
+            localStorage.getItem("school_id");
+
+        if (!senderSchoolId) {
+            window.location.href = "/login";
+            return;
+        }
+
+        const message = prompt(
+            `Send a message to ${donorName}:`
+        );
+
+        if (!message || !message.trim()) {
+            return;
+        }
+
+        API.sendMessage({
+            sender_school_id: senderSchoolId,
+            receiver_school_id: receiverSchoolId,
+            message: message.trim()
+        })
+        .then(() => {
+            alert("Message sent successfully.");
+        })
+        .catch((error) => {
+            alert(`Could not send message: ${error.message}`);
+        });
+    });
+
     loadDonors();
+
 });

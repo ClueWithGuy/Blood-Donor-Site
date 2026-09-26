@@ -104,6 +104,16 @@ const API = {
     },
 
 
+    deleteDonation(schoolId, donationId) {
+	return this.request(
+	    `/api/donors/${encodeURIComponent(schoolId)}/donations/${encodeURIComponent(donationId)}`,
+	    {
+		method: "DELETE"
+	    }
+	);
+    },
+
+
     updateDonor(schoolId, data) {
         return this.request(
             `/api/donors/${encodeURIComponent(schoolId)}`,
@@ -153,5 +163,14 @@ const API = {
                 method: "PUT"
             }
         );
+    },
+
+    deleteConversation(schoolId, otherSchoolId) {
+	return this.request(
+	    `/api/messages/conversation/${encodeURIComponent(schoolId)}/${encodeURIComponent(otherSchoolId)}`,
+	    {
+		method: "DELETE"
+	    }
+	);
     }
 };
