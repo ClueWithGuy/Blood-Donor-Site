@@ -429,7 +429,16 @@ body {
 .mini-footer-dot {
     margin: 0 8px;
 }
+/* Target the date input specifically */
+input[type="date"] {
+  color-scheme: dark; /* Tells Chrome/Edge/Safari to render the native popup in dark mode */
+}
 
+/* Customize native calendar picker icon if needed */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Ensures the built-in calendar icon matches a dark theme */
+  cursor: pointer;
+}
 
 /* ==========================================================================
    RIGHT: ANIMATED ART PANEL
